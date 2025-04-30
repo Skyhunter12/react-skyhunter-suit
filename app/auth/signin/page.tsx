@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import { print } from 'graphql';
 import gql from 'graphql-tag';
-import { useAuth } from '@/app/utils/AuthContext';
+import { useAuth } from '../../utils/AuthContext';
 
 export default function SignIn() {
   const router = useRouter()

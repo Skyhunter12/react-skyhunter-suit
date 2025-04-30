@@ -2,22 +2,48 @@
 # See https://firebase.google.com/docs/app-hosting/configure#cloud-run
 runConfig:
   minInstances: 0
-  # maxInstances: 100
-  # concurrency: 80
-  # cpu: 1
-  # memoryMiB: 512
+  maxInstances: 10
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 512
 
 # Environment variables and secrets.
-# env:
-  # Configure environment variables.
-  # See https://firebase.google.com/docs/app-hosting/configure#user-defined-environment
-  # - variable: MESSAGE
-  #   value: Hello world!
-  #   availability:
-  #     - BUILD
-  #     - RUNTIME
-
-  # Grant access to secrets in Cloud Secret Manager.
-  # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
-  # - variable: MY_SECRET
-  #   secret: mySecretRef
+env:
+  # User-defined environment variables
+  - variable: NEXT_PUBLIC_APP_LIVE_URL
+    value: "https://skyhunter-suit.web.app/graphql"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_ENV
+    value: "development"
+    availability:
+      - RUNTIME
+  - variable: github_client_id
+    value: "f7e630bb65830688aef6"
+    availability:
+      - RUNTIME
+  - variable: hiyhub_secret
+    value: "353eb11878f4f068ca5c2b9ad6734e4460161b6d"
+    availability:
+      - RUNTIME
+  - variable: projectId
+    value: "e-learning-ab"
+    availability:
+      - RUNTIME
+  - variable: authDomain
+    value: "e-learning-ab.firebaseapp.com"
+    availability:
+      - RUNTIME
+  - variable: storageBucket
+    value: "e-learning-ab.firebasestorage.app"
+    availability:
+      - RUNTIME
+  - variable: messagingSenderId
+    value: "66003118639"
+    availability:
+      - RUNTIME
+  - variable: appId
+    value: "1:66003118639:web:f5dafa798d995b8a0af4da"
+    availability:
+      - RUNTIME

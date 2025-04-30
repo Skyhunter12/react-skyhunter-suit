@@ -9,7 +9,7 @@
   },
   "functions": [
     {
-      "source": ".",
+      "source": "functions",
       "codebase": "default",
       "ignore": [
         "node_modules",
@@ -29,12 +29,10 @@
     ],
     "rewrites": [
       {
-        "source": "**/**",
-        "function": "app-next"
+        "source": "**",
+        "function":"nextApp"
       }
     ]
   },
-  "remoteconfig": {
-    "template": "remoteconfig.template.json"
-  }
+  "remoteconfig": {}
 }

@@ -1,8 +1,7 @@
 {
-  "source":"src/index.html",
+  "source": "src/index.html",
   "name": "skyhunter-suit",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -10,14 +9,21 @@
     "lint": "next lint",
     "export": "next export"
   },
+  "engines": {
+    "node": "22"
+  },
+  "main": "index.js",
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@material-tailwind/react": "^2.1.10",
     "@radix-ui/react-slot": "^1.1.2",
+    "@tailwindcss/postcss": "^4.1.4",
     "axios": "^1.8.4",
     "bootstrap": "^5.3.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1",
     "google-libphonenumber": "^3.2.40",
     "graphql-tag": "^2.12.6",
     "heroicons": "^2.2.0",
@@ -26,36 +32,18 @@
     "mdb-react-ui-kit": "^9.0.0",
     "next": "15.2.2",
     "prop-types": "^15.8.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-icons": "^5.5.0",
     "react-phone-number-input": "^3.4.12",
     "react-select": "^5.10.1",
     "tailwind-merge": "^3.0.2",
-    "tw-animate-css": "^1.2.4",
-    "firebase-admin": "^12.6.0",
-    "firebase-functions": "^6.0.1"
+    "tw-animate-css": "^1.2.4"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
     "@types/google-libphonenumber": "^7.4.30",
-    "@types/node": "^20",
-    "@types/prop-types": "^15.7.14",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "autoprefixer": "^10.4.21",
-    "eslint": "^9",
-    "eslint-config-next": "15.2.2",
-    "eslint-plugin-react": "^7.37.4",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "postcss": "^8.5.3",
-    "react-router": "^7.4.1",
-    "react-router-dom": "^7.4.1",
-    "tailwindcss": "^4.0.14",
-    "typescript": "^5"
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "5.8.3"
   },
-  "engines": {
-    "node": "22"
-  }
+  "private": true
 }

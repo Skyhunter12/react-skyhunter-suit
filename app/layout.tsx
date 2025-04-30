@@ -8,10 +8,12 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { AuthProvider, useAuth } from "./utils/AuthContext";
 import { JSX } from "react";
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
 
-const NoSSRSignUp = dynamic(() => import("./(auth)/signup/page"), { ssr: false });
-const NoSSRSignIn = dynamic(() => import("./(auth)/signin/page"), { ssr: false });
-const NoSSRProfile = dynamic(() => import("./(auth)/profile/page"), { ssr: false });
+const NoSSRSignUp = dynamic(() => import("./auth/signup/page"), { ssr: false });
+const NoSSRSignIn = dynamic(() => import("./auth/signin/page"), { ssr: false });
+const NoSSRProfile = dynamic(() => import("./auth/profile/page"), { ssr: false });
 const NoSSRGetAstronauts = dynamic(() => import("./astronauts/page"), { ssr: false });
 const NoSSRGetAstronaut = dynamic(() => import("./astronaut/page"), { ssr: false });
 const NoSSRGetSuits = dynamic(() => import("./getsuits/page"), { ssr: false });
