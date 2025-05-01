@@ -1,12 +1,11 @@
-import * as admin from "firebase-admin";
+import { initializeApp } from "firebase-admin/app";
 import next from "next";
 import { onRequest } from "firebase-functions/v2/https";
 
-if (!admin.apps.length) {
-    admin.initializeApp();
+if (!admin.apps || admin.apps.length === 0) {
+    initializeApp()
   }
-// Initialize Firebase Admin
-admin.initializeApp();
+
 
 // Resolve the root directory
 // Next.js app setup
