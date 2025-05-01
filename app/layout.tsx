@@ -56,7 +56,7 @@ export default function RootLayout({
 }
 
 function AppContent() {
-  const pathname = usePathname().replace(/\/$/, ""); // Get the current URL path
+  const pathname = typeof window !== "undefined" ? window.location.pathname.replace(/\/$/, "") : ""; // Client-side pathname
   console.log(pathname)
   const { isLoggedIn } = useAuth(); // Access the global auth state
   // Map routes to components dynamically
