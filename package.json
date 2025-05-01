@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "source": "src/index.html",
   "name": "skyhunter-suit",
   "version": "0.1.0",
@@ -6,7 +7,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "firebase deploy --only hosting,functions:next_app"
   },
   "engines": {
     "node": "18"
