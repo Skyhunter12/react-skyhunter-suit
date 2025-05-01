@@ -2,6 +2,9 @@ import * as admin from "firebase-admin";
 import next from "next";
 import { onRequest } from "firebase-functions/v2/https";
 
+if (!admin.apps.length) {
+    admin.initializeApp();
+  }
 // Initialize Firebase Admin
 admin.initializeApp();
 
