@@ -1,15 +1,19 @@
-import { https } from "firebase-functions";
-import next from "next";
+cls/**
+ * Import function triggers from their respective submodules:
+ *
+ * const {onCall} = require("firebase-functions/v2/https");
+ * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
+ *
+ * See a full list of supported triggers at https://firebase.google.com/docs/functions
+ */
 
-const app = next({ dev: false, conf: { distDir: ".next" } });
-const handle = app.getRequestHandler();
+const {onRequest} = require("firebase-functions/v2/https");
+const logger = require("firebase-functions/logger");
 
-export const nextApp = https.onRequest(async (req, res) => {
-  try {
-    await app.prepare();
-    handle(req, res);
-  } catch (error) {
-    console.error("Error handling request:", error);
-    res.status(500).send("Internal Server Error");
-  }
-});
+// Create and deploy your first functions
+// https://firebase.google.com/docs/functions/get-started
+
+// exports.helloWorld = onRequest((request, response) => {
+//   logger.info("Hello logs!", {structuredData: true});
+//   response.send("Hello from Firebase!");
+// });
