@@ -2,9 +2,8 @@ import { initializeApp } from "firebase-admin/app";
 import next from "next";
 import { onRequest } from "firebase-functions/v2/https";
 
-if (!admin.apps || admin.apps.length === 0) {
     initializeApp()
-  }
+
 
 
 // Resolve the root directory
@@ -18,7 +17,7 @@ export const next_app = onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, POST");
   try {
     await app.prepare();
-    return handle(req, res);
+    handle(req, res);
   } catch (error) {
     console.error("Error handling request:", error);
     res.status(500).send("Internal Server Error");
