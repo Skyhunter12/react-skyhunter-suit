@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "engines": {
-    "node": "22"
+    "node": "18"
   },
   "main": "index.js",
   "dependencies": {

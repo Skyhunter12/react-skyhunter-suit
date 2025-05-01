@@ -4,8 +4,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import dynamic from "next/dynamic";
-import { usePathname } from "next/navigation";
 import { AuthProvider, useAuth } from "./utils/AuthContext";
 import { JSX } from "react";
 

@@ -1,25 +1,4 @@
 {
-  "emulators": {
-    "dataconnect": {
-      "dataDir": "dataconnect/.dataconnect/pgliteData"
-    }
-  },
-  "dataconnect": {
-    "source": "dataconnect"
-  },
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "*.local"
-      ]
-    }
-  ],
   "hosting": {
     "public": "public",
     "ignore": [
@@ -30,9 +9,11 @@
     "rewrites": [
       {
         "source": "**",
-        "function":"nextApp"
+        "function": "nextApp"
       }
     ]
   },
-  "remoteconfig": {}
+  "functions": {
+    "source": "functions"
+  }
 }
