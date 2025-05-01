@@ -1,5 +1,5 @@
-const functions = require("firebase-functions");
-const next = require("next");
+import * as functions from "firebase-functions";
+import next from "next";
 const dir = __dirname
 
 const app = next({ dev: false,dir, conf: { distDir: ".next" } });
