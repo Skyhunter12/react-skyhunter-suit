@@ -8,18 +8,16 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { AuthProvider, useAuth } from "./utils/AuthContext";
 import { JSX } from "react";
-import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
 
-const NoSSRSignUp = dynamic(() => import("./auth/signup/page"), { ssr: false });
-const NoSSRSignIn = dynamic(() => import("./auth/signin/page"), { ssr: false });
-const NoSSRProfile = dynamic(() => import("./auth/profile/page"), { ssr: false });
-const NoSSRGetAstronauts = dynamic(() => import("./astronauts/page"), { ssr: false });
-const NoSSRGetAstronaut = dynamic(() => import("./astronaut/page"), { ssr: false });
-const NoSSRGetSuits = dynamic(() => import("./getsuits/page"), { ssr: false });
-const NoSSRGetSuit = dynamic(() => import("./getsuit/page"), { ssr: false });
-const NoSSRGetAttachements = dynamic(() => import("./attachments/page"), { ssr: false });
-const NoSSRGetAttachment = dynamic(() => import("./attachment/page"), { ssr: false });
+import GetProfile from "./auth/profile/page";
+import GetSuits from "./getsuits/page";
+import SignIn from "./auth/signin/page";
+import GetSuit from "./getsuit/page";
+import Astronauts from "./astronauts/page";
+import Astronaut from "./astronaut/page";
+import GetAttachment from "./attachment/page";
+import Attachments from "./attachments/page";
+import SignUp from "./auth/signup/page";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -61,19 +59,19 @@ function AppContent() {
   const { isLoggedIn } = useAuth(); // Access the global auth state
   // Map routes to components dynamically
   const routeComponents: { [key: string]: JSX.Element } = {
-    "/profile": isLoggedIn ? <NoSSRProfile /> : <NoSSRSignIn />,
-    "/getsuits": isLoggedIn ? <NoSSRGetSuits /> : <NoSSRSignIn />,
-    "/getsuit": isLoggedIn ? <NoSSRGetSuit /> : <NoSSRSignIn />,
-    "/astronauts": isLoggedIn ? <NoSSRGetAstronauts /> : <NoSSRSignIn />,
-    "/astronaut": isLoggedIn ? <NoSSRGetAstronaut /> : <NoSSRSignIn />,
-    "/attachments": isLoggedIn ? <NoSSRGetAttachements /> : <NoSSRSignIn />,
-    "/attachment": isLoggedIn ? <NoSSRGetAttachment /> : <NoSSRSignIn />,
-    "/signup": <NoSSRSignUp />,
-    "/signin": <NoSSRSignIn />,
+    "/profile": isLoggedIn ? <GetProfile /> : <SignIn />,
+    "/getsuits": isLoggedIn ? <GetSuits /> : <SignIn />,
+    "/getsuit": isLoggedIn ? <GetSuit /> : <SignIn />,
+    "/astronauts": isLoggedIn ? <Astronauts /> : <SignIn />,
+    "/astronaut": isLoggedIn ? <Astronaut /> : <SignIn />,
+    "/attachments": isLoggedIn ? <Attachments /> : <SignIn />,
+    "/attachment": isLoggedIn ? <GetAttachment /> : <SignIn />,
+    "/signup": <SignUp />,
+    "/signin": <SignIn />,
   };
 
   // Determine the component to render based on the current pathname
-  const renderComponent = routeComponents[pathname] || <NoSSRSignIn />;
+  const renderComponent = routeComponents[pathname] || <SignIn />;
 
   return (
     <>
