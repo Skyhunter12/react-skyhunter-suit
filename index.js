@@ -1,5 +1,7 @@
-import { initializeApp } from "firebase-admin/app";
-import next from "next";
+const { initializeApp } = require("firebase-admin/app");
+const next = require("next");
+const { onRequest } = require("firebase-functions/v2/https");
+
 
 const port = process.env.PORT||4000;
 
@@ -15,6 +17,6 @@ const nextjsServer = next({
 });
 const nextjsHandle = nextjsServer.getRequestHandler();
 
-exports.next_app = https.onRequest((req, res) => {
+exports.next_app = onRequest((req, res) => {
   return nextjsServer.prepare().then(() => nextjsHandle(req, res));
 });
