@@ -1,23 +1,20 @@
 {
-  "functions": {
-    "source": ".",
-    "predeploy": [
-      "npm --prefix \"$RESOURCE_DIR\" run build"
-    ]
-  },
   "hosting": {
     "public": "public",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
-        "destination": "next_app"
+        "function": "nextjsFunc"
       }
     ]
   },
-  "remoteconfig": {}
+  "functions": {
+    "source": ".",
+    "predeploy": [
+      "npm --prefix \"$PROJECT_DIR\" install",
+      "npm --prefix \"$PROJECT_DIR\" run build"
+    ],
+    "runtime": "nodejs18"
+  }
 }
