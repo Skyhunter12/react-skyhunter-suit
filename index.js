@@ -2,10 +2,19 @@ import { initializeApp } from "firebase-admin/app";
 import next from "next";
 import { onRequest } from "firebase-functions/v2/https";
 
-    initializeApp()
+const firebaseConfig = {
+  apiKey: process.env.apiKey,
+  authDomain:process.env.authDomain,
+  databaseURL: process.env.databaseURL,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+  appId: process.env.appId
+};
+const port = process.env.PORT||4000;
 
-
-
+// Initialize Firebase
+initializeApp(firebaseConfig);
 // Resolve the root directory
 // Next.js app setup
 const app = next({ dev: false, conf: { distDir: ".next" } });
