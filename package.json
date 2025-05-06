@@ -25,6 +25,7 @@
     "firebase": "^11.6.1",
     "firebase-admin": "^12.6.0",
     "firebase-functions": "^6.0.1",
+    "functions": "file:",
     "google-libphonenumber": "^3.2.40",
     "graphql-tag": "^2.12.6",
     "heroicons": "^2.2.0",
