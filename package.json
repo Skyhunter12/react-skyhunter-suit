@@ -1,6 +1,6 @@
 {
   "source": "index.js",
-  "name": "skyhunter-suit",
+  "name": "functions",
   "version": "0.1.0",
   "scripts": {
     "dev": "next dev --turbopack",
