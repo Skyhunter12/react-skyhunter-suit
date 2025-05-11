@@ -8,10 +8,29 @@ import { useSearchParams } from "next/navigation";
 interface LiveProps {
     id: string; // Replace 'string' with the appropriate type if needed
 }
+type AstronautData = {
+    name: String
+    description: String
+    effect: String
+    values: [String]
+    belongs_to: [String]
+    catagory: [String]
+    attached_to: [String]
+    is_live: Boolean
+    severity: String
+    bp : String
+    oxygen_level: String
+    Actuators : String 
+    leak_detection: String
+    rapid_pressurization: String
+    regulated_pressure: String
+    respiration_rate: String
+    body_temperature: String
+}
 
 const Live = () => {
     let {isLoggedIn} = useAuth();
-    let [astronautsData, setAstronautsData] = useState<any>(null); // State to store suits data
+    let [astronautsData, setAstronautsData] = useState<AstronautData[] | null>(null); // State to store suits data
     let [page, setPage] = useState(1)
     let [limit, setLimit] = useState(10)
     let [client, SetClient] = useState(false)
