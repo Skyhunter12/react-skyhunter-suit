@@ -9,6 +9,7 @@ import Select from "react-select";
 export default function Attachments() {
   const [attachmentsData, setAttachmentsData] = useState<any>(null); // State to store suits data
   const [loading, setLoading] = useState(true);
+  const [client, setClent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<string | number>(1);
   const [limit, setLimit] = useState<string | number>(10);
@@ -56,8 +57,8 @@ export default function Attachments() {
         fetchAttachments();
         setLoading(false)
     }
-    
-  },  [isLoggedIn, router, attachmentsFeature, page, limit]);
+    setClent(true)
+  },  [isLoggedIn, attachmentsFeature, page, limit]);
   
   const fetchAttachments = async () => {
     try {
@@ -94,7 +95,7 @@ export default function Attachments() {
   if (error) {
     return <div>Error: {error}</div>;
   }
-  return (
+  return (client &&
     <div className="min-h-screen bg-gray-100 flex justify-center bg-[url('/images/Mars_rocket_2.png')] bg-cover bg-[100%_100%] bg-center bg-no-repeat">
       {/* Use max-w-full to span all 12 columns */}
       <div className="grid grid-cols-12 w-full ">
@@ -234,9 +235,8 @@ export default function Attachments() {
           <tbody>
             {attachmentsData?.length > 0 ? (
               attachmentsData?.map((attachment: any, index: number) => (
-                <>
+                <React.Fragment key={attachment.id || index}>
                   <tr
-                    key={attachment.id || index}
                     className="hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleRowClick(attachment?.id)} // Fetch details on row click
                   >
@@ -260,7 +260,7 @@ export default function Attachments() {
                     </td>
                     <td className="border border-gray-300 px-2 py-2">{attachment?.description}</td>
                   </tr>
-                </>
+                </React.Fragment>
               ))
             ) : (
               <tr>

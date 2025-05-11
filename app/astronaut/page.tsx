@@ -1,5 +1,3 @@
-
-
 "use client";
 import { useEffect, useState } from "react";
 import { getAstronaut } from "../utils/actions";
@@ -11,12 +9,18 @@ export default function Astronaut() {
   const [astronautData, setAstronautData] = useState<any>(null); // State to store suits data
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { isLoggedIn, login } = useAuth(); // Access the global auth state
+  const { isLoggedIn } = useAuth(); // Access the global auth state
   const router = useRouter()
   let searchParams = useSearchParams()
     let id = searchParams.get('id')
     
   useEffect(() => {
+    console.log("hi astronaut", id)
+    if (!id) {
+      setError("No astronaut ID provided.");
+      setLoading(false);
+      return;
+    }
     if (!isLoggedIn) {
       router.push("/signin");
     } else {
@@ -25,31 +29,41 @@ export default function Astronaut() {
           const token = localStorage.getItem('token');
           if (!token) {
             setError("Authentication token is missing.");
+            setLoading(false);
             return;
           }
           // Save token to localStorage and update global state
-          login(token); // Update the logged-in state in AuthContext
-          const fetchAstronaut = async () => {
-            try {
-              let fetchdata = await getAstronaut(id, token||"")
-              console.log(fetchdata.data.PersonById)
-              setAstronautData(fetchdata.data.PersonById)
-            } catch (err) {
-              console.error("Error fetching suits data:", err);
-              setError("Failed to fetch suits data.");
-            } finally {
-              setLoading(false);
-            }
-          };
+          
       
-          fetchAstronaut();
+          fetchAstronaut(token);
         } catch (error) {
           console.error("Error parsing user data:", error);
         }
         setLoading(false)
       }
-  }, [isLoggedIn, id, login, router]);
+  }, [isLoggedIn, id, router]);
 
+  const fetchAstronaut = async (token:string) => {
+    try {
+      let fetchdata = await getAstronaut(id, token||"")
+      console.log(fetchdata.data.PersonById)
+      setAstronautData(fetchdata.data.PersonById)
+    } catch (err) {
+      console.error("Error fetching suits data:", err);
+      setError("Failed to fetch suits data.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const goLive = async (id: string) => {
+    try {
+      router.push(`/live?id=${ id }`) // Pass the ID as a query parameter
+       // Update the state with the fetched details
+    } catch (err) {
+      console.error("Error fetching suit details:", err);
+    }
+  };
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -74,7 +88,7 @@ export default function Astronaut() {
                         <MDBRow className="g-0">
                           <MDBCol md="4" className="gradient-custom text-center text-white"
                             style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
-                            <MDBCardImage src={astronautData?.photos[0]?.url}
+                            <MDBCardImage src={astronautData?.photos[0]?.url} 
                               alt="Avatar" className="my-5" style={{ width: '80px' }} fluid />
                             <MDBTypography tag="h5">{astronautData?.firstName} {astronautData?.lastName}</MDBTypography>
                             <MDBCardText>{astronautData?.specialisation}</MDBCardText>
@@ -82,7 +96,11 @@ export default function Astronaut() {
                           </MDBCol>
                           <MDBCol md="8">
                             <MDBCardBody className="p-4">
-                              <MDBTypography tag="h6">Information</MDBTypography>
+                              <MDBTypography tag="h6" >Information</MDBTypography>
+                              <div className="pt-1 d-flex justify-content-between">
+                              <a href="#!" className="text-muted text-start">Edit</a>
+                              <a className="text-end" href={`/live/?id=${ astronautData.id }`}>Live Status</a>
+                              </div>
                               <hr className="mt-0 mb-4" />
                               <MDBRow className="pt-1">
                                 <MDBCol size="6" className="mb-3">

@@ -3,16 +3,18 @@ import { useEffect, useState } from "react";
 import { getAstronaut, getAstronauts } from "../utils/actions";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../utils/AuthContext";
+import React from "react";
+import Link from "next/link";
 
 export default function Astronauts() {
   const [astronautsData, setAstronautsData] = useState<any>(null); // State to store suits data
   const [loading, setLoading] = useState(true);
+  const [client, setClent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { isLoggedIn, login } = useAuth(); // Access the global auth state
   const router = useRouter(); // Initialize useRouter
   
   useEffect(() => {
-    console.log(isLoggedIn)
     if (!isLoggedIn) {
       router.push("/signin");
     } else {
@@ -46,9 +48,9 @@ export default function Astronauts() {
           console.error("Error parsing user data:", error);
         }
         setLoading(false)
+        setClent(true)
     }
-    
-  },  [isLoggedIn, login, router]);
+  },  [isLoggedIn, login]);
 
   const handleRowClick = async (id: string) => {
     try {
@@ -72,13 +74,13 @@ export default function Astronauts() {
   //   console.log("suitsData",suitsData)
   //   setSuitsData(changedData)
   // }
-  return (
+  return (client &&
     <div className="min-h-screen bg-gray-100 flex justify-center bg-[url('/images/Mars_rocket_2.png')] bg-cover bg-[100%_100%] bg-center bg-no-repeat">
       {/* Use max-w-full to span all 12 columns */}
       <div className="grid grid-cols-12 w-full ">
       <div className="col-span-2"></div>  
       <div className="bg-white p-2 rounded shadow-md col-span-10">
-        <h2 className="text-2xl font-bold mb-12 text-center">Suits</h2>
+        <h2 className="text-2xl font-bold mb-12 text-center">Astronauts</h2>
         {/* Filters */}
         <div className="flex flex-wrap gap-2 mb-12">
         </div> 
@@ -100,13 +102,12 @@ export default function Astronauts() {
           <tbody>
             {astronautsData?.length > 0 ? (
               astronautsData?.map((astronaut: any, index: number) => (
-                <>
+                <React.Fragment key={astronaut.id || index}>
                   <tr
-                    key={astronaut.id || index}
                     className="hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleRowClick(astronaut?.id)} // Fetch details on row click
+                     // Fetch details on row click
                   >
-                    <td className="border border-gray-300 px-2 py-2">{astronaut?.firstName} {astronaut?.lastName}</td>
+                    <td className="border border-gray-300 px-2 py-2">{astronaut?.firstName} {astronaut?.lastName} <a href={`/astronaut/?id=${ astronaut.id }`}>more</a></td>
                     <td className="border border-gray-300 px-2 py-2">{astronaut?.specialisation}</td>
                     <td className="border border-gray-300 px-2 py-2">{astronaut?.photo?.url}</td>
                     <td className="border border-gray-300 px-2 py-2">{astronaut?.phone}</td>
@@ -119,7 +120,7 @@ export default function Astronauts() {
                       {astronaut.experience} years
                     </td>
                   </tr>
-                </>
+                </React.Fragment>
               ))
             ) : (
               <tr>

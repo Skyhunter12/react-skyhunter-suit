@@ -16,6 +16,9 @@ import Astronaut from "./astronaut/page";
 import GetAttachment from "./attachment/page";
 import Attachments from "./attachments/page";
 import SignUp from "./auth/signup/page";
+import Live from "./live/page";
+import type { AppProps } from "next/app";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,9 +36,10 @@ const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
+  children,AppProps
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode,
+  AppProps:JSX.Element
 }) {
   return (
     <html lang="en">
@@ -44,7 +48,7 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthProvider>
-          <AppContent />
+          <AppContent {...AppProps}/>
         </AuthProvider>
       </body>
     </html>
@@ -53,7 +57,6 @@ export default function RootLayout({
 
 function AppContent() {
   const pathname = typeof window !== "undefined" ? window.location.pathname.replace(/\/$/, "") : ""; // Client-side pathname
-  console.log(pathname)
   const { isLoggedIn } = useAuth(); // Access the global auth state
   // Map routes to components dynamically
   const routeComponents: { [key: string]: JSX.Element } = {
@@ -64,6 +67,7 @@ function AppContent() {
     "/astronaut": isLoggedIn ? <Astronaut /> : <SignIn />,
     "/attachments": isLoggedIn ? <Attachments /> : <SignIn />,
     "/attachment": isLoggedIn ? <GetAttachment /> : <SignIn />,
+    "/live": isLoggedIn ? <Live /> : <SignIn />,
     "/signup": <SignUp />,
     "/signin": <SignIn />,
   };
@@ -73,7 +77,7 @@ function AppContent() {
 
   return (
     <>
-      <Navbar setCurrentPage={() => {}} />
+      <Navbar />
       <main>
         {renderComponent}
       </main>

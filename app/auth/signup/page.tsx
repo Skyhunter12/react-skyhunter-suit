@@ -39,6 +39,7 @@ export default function SignUp({
   console.log(process.env.NEXT_PUBLIC_APP_URL)
   const APP_URL = process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL ||''
   const [first_name, setFirstName] = useState('');
+  const [client, setClient] = useState(false);
   const [last_name, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -58,6 +59,7 @@ export default function SignUp({
     } else {
       console.warn('Invalid country code:', geoPlugin.geoPlugin);
     }
+    setClient(true)
   }, []);
   const [selectedRole, setSelectedRole] = React.useState("");
 
@@ -151,7 +153,7 @@ export default function SignUp({
     setSelectedRole(itemSelected);
     return;
   }
-  return (
+  return (client &&
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>

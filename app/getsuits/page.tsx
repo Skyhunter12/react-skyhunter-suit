@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { getSuit, getSuits } from "../utils/actions";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../utils/AuthContext";
@@ -7,8 +7,8 @@ import { useAuth } from "../utils/AuthContext";
 export default function GetSuits() {
   const [suitsData, setSuitsData] = useState<any>(null); // State to store suits data
   const [loading, setLoading] = useState(true);
+  const [client, setClent] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedSuit, setSelectedSuit] = useState<any | null>(null); // State to store the selected suit's details
   const { isLoggedIn, login } = useAuth(); // Access the global auth state
   
   const [moduleFilter, setModuleFilter] = useState<string>("All");
@@ -53,7 +53,7 @@ export default function GetSuits() {
         }
         setLoading(false)
     }
-    
+    setClent(true)
   },  [moduleFilter, nameFilter, limit, page, isLoggedIn, login, router]);
 
   const handleRowClick = async (id: string) => {
@@ -71,13 +71,8 @@ export default function GetSuits() {
   if (error) {
     return <div>Error: {error}</div>;
   }
-  // async function checkIfDataChanged() {
-  //   const token = localStorage.getItem("token");
-  //   let changedData =await getSuits(suitsByFeature, token||"")
-  //   console.log("suitsData",suitsData)
-  //   setSuitsData(changedData)
-  // }
-  return (
+  
+  return (client &&
     <div className="min-h-screen bg-gray-100 flex justify-center bg-[url('/images/Mars_rocket_2.png')] bg-cover bg-[100%_100%] bg-center bg-no-repeat">
       {/* Use max-w-full to span all 12 columns */}
       <div className="grid grid-cols-12 w-full ">
@@ -151,9 +146,9 @@ export default function GetSuits() {
           <tbody>
             {suitsData?.length > 0 ? (
               suitsData?.map((suit: any, index: number) => (
-                <>
+                <Fragment key={suit?.id || index}>
                   <tr
-                    key={suit?.id || index}
+                    
                     className="hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleRowClick(suit?.id)} // Fetch details on row click
                   >
@@ -167,20 +162,8 @@ export default function GetSuits() {
                       {suit.lifetime.years} years, {suit.lifetime.months} months, {suit.lifetime.days} days
                     </td>
                   </tr>
-                  {selectedSuit?.id === suit.id && (
-                    <tr>
-                      <td colSpan={7} className="border border-gray-300 px-2 py-2">
-                        <div>
-                          <strong>Details:</strong>
-                          <p>Module: {selectedSuit?.functional_modifications?.module}</p>
-                          <p>Name: {selectedSuit?.functional_modifications?.name}</p>
-                          <p>Description: {selectedSuit?.functional_modifications?.description}</p>
-                          <p>Installed On: {selectedSuit?.functional_modifications?.installed_on}</p>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </>
+                  
+                </Fragment>
               ))
             ) : (
               <tr>

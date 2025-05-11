@@ -40,6 +40,7 @@ export async function getSuits(suitsByFeature: any, token:string) {
     {
       query,
       variables: { feature: await suitsByFeature },
+      cache: "no-store",
     },
     {
       headers: {
@@ -91,10 +92,12 @@ export async function getAstronauts(token:string) {
   const response = await axios.post(
     APP_URL,
     {
-      query
+      query,
+      cache: "no-store",
     },
     {
       headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
@@ -126,7 +129,6 @@ export async function getSuit(id: any, token:string) {
     updatedAt
   }
 }`;
-    console.log("actions", token);
     
   const response = await axios.post(
     APP_URL,
@@ -136,6 +138,7 @@ export async function getSuit(id: any, token:string) {
     },
     {
       headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
@@ -182,7 +185,6 @@ export async function getAstronaut(id: any, token:string) {
     }
   }
 }`;
-    console.log("actions", token);
     
   const response = await axios.post(
     APP_URL,
@@ -192,6 +194,7 @@ export async function getAstronaut(id: any, token:string) {
     },
     {
       headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
@@ -252,6 +255,7 @@ export async function getAttachments(attachementsPayload: any, token:string, pag
     },
     {
       headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
@@ -320,4 +324,43 @@ export async function getAttachment(id: any, token:string) {
   );
   
   return await response.data;
+}
+
+export async function getCurrentAstronautResults(feature:any, token:string, page:any, limit:any){
+  let query = `query Query( $page: Int, $limit: Int, $feature: attachment_results_by_feature) {
+  AttachementResults(page: $page, limit: $limit, feature: $feature) {
+    page
+    limit
+    total
+    pages
+    attachmentResult {
+      attached_to
+      belongs_to
+      catagory
+      description
+      effect
+      id
+      is_live
+      name
+      severity
+      values
+    }
+  }
+}`;
+
+  const response = await axios.post(
+    APP_URL,
+    {
+      query,
+      variables: { feature: await feature, page:page, limit:limit },
+    },
+    {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        "Content-Type": "application/json",
+        Authorization: token, // Include the token in the Authorization header
+      },
+    }
+  );
+  return response.data;
 }
