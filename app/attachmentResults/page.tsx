@@ -31,22 +31,24 @@ const AstronautWithAdvancedAttachments = ({
   const rectWidth = 60; // Width of the rectangles
   const rectHeight = 30; // H Above the rectangle
   
-  let [currentCondition, setCurrentCondition] = useState<any>(null)
+  let [currentCondition, setCurrentCondition] = useState<AstronautData | null>(null)
   const previousHrtState = currentCondition?.name?.split(" ")
   
+  if(previousHrtState){
   currentCondition?.values?.map((item:any, i:any) => {
     item = `${previousHrtState[i]} ${item}`
   })
+  }
   
   const attachments = [
     { label: "BP", show: showBloodPressure , value: currentCondition?.bp},
     { label: "Actuators", show: showActuators, value: currentCondition?.Actuators},
     { label: "Previous Heart Rate", show: showHeartRate, value:currentCondition?.values[0] },
-    { label: "Current Heart Rate", show: showHeartRate, value:currentCondition?.values[1] },
-    { label: "Respiration", show: showRespirationRate, value: showBloodOxygen ?currentCondition?.respirationRate :0},
-    { label: "Temp", show: showBodyTemperature, value: currentCondition?.bodyTemperature },
-    { label: "Pressure", show: showRegulatedPressure, value: currentCondition?.suit_pressure },
-    { label: "Leak", show: showLeakDetection, value: currentCondition?.leakDetection },
+    { label: "Current Heart Rate", show: showHeartRate, value: previousHrtState ?currentCondition?.values?.splice(1,1):0 },
+    { label: "Respiration", show: showRespirationRate, value: showRespirationRate ?currentCondition?.respiration_rate :0},
+    { label: "Temp", show: showBodyTemperature, value: showBodyTemperature? currentCondition?.body_temperature :0},
+    { label: "Pressure", show: showRegulatedPressure, value:showRegulatedPressure ? currentCondition?.regulated_pressure :0},
+    { label: "Leak", show: showLeakDetection, value: showLeakDetection ?currentCondition?.leak_detection :0},
   ].filter((attachment) => attachment.show); // Only include active attachments
   
   useEffect(() => {
