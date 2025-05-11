@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const AstronautWithAdvancedAttachments = ({
     showRespirationRate,
@@ -6,8 +6,6 @@ const AstronautWithAdvancedAttachments = ({
     showBloodOxygen,
     showRegulatedPressure,
     showLeakDetection,
-    showMaterialInnovations,
-    showRapidPressurization,
     showHeartRate,
     showActuators,
     showBloodPressure,
@@ -43,7 +41,7 @@ const AstronautWithAdvancedAttachments = ({
     { label: "Actuators", show: showActuators, value: currentCondition?.Actuators},
     { label: "Previous Heart Rate", show: showHeartRate, value:currentCondition?.values[0] },
     { label: "Current Heart Rate", show: showHeartRate, value:currentCondition?.values[1] },
-    { label: "Respiration", show: showRespirationRate, value: currentCondition?.respirationRate },
+    { label: "Respiration", show: showRespirationRate, value: showBloodOxygen ?currentCondition?.respirationRate :0},
     { label: "Temp", show: showBodyTemperature, value: currentCondition?.bodyTemperature },
     { label: "Pressure", show: showRegulatedPressure, value: currentCondition?.suit_pressure },
     { label: "Leak", show: showLeakDetection, value: currentCondition?.leakDetection },
