@@ -40,7 +40,7 @@ const AstronautWithAdvancedAttachments = ({
   
   const attachments = [
     { label: "BP", show: showBloodPressure , value: currentCondition?.bp},
-    { label: "Actuators", show: showActuators, value: currentCondition.Actuators},
+    { label: "Actuators", show: showActuators, value: currentCondition?.Actuators},
     { label: "Previous Heart Rate", show: showHeartRate, value:currentCondition?.values[0] },
     { label: "Current Heart Rate", show: showHeartRate, value:currentCondition?.values[1] },
     { label: "Respiration", show: showRespirationRate, value: currentCondition?.respirationRate },
