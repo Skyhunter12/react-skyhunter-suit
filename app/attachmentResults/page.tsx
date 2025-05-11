@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { AstronautData } from "../utils/interfaces";
 
 const AstronautWithAdvancedAttachments = ({
     showRespirationRate,
@@ -22,7 +23,7 @@ const AstronautWithAdvancedAttachments = ({
     showHeartRate?:boolean,
     showActuators?:boolean,
     showBloodPressure?:boolean,
-    astronautsData?: any;
+    astronautsData?: AstronautData[] | null;
   }) => {
     const centerX = 200; // Astronaut's center X
   const centerY = 200; // Astronaut's center Y
@@ -49,10 +50,9 @@ const AstronautWithAdvancedAttachments = ({
   ].filter((attachment) => attachment.show); // Only include active attachments
   
   useEffect(() => {
-    if (astronautsData?.length > 0) {
-      let data = astronautsData;
-      let randomIndex = Math.floor(Math.random() * data.length);
-      let randomData = data[randomIndex];
+    if (astronautsData) {
+      let randomIndex = Math.floor(Math.random() * astronautsData.length);
+      let randomData = astronautsData[randomIndex];
       console.log("randomData", randomData);
       setCurrentCondition(randomData);
     }

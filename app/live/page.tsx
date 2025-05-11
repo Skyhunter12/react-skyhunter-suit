@@ -4,29 +4,12 @@ import AstronautWithAttachmentResults from "../attachmentResults/page";
 import { useAuth } from "../utils/AuthContext";
 import { getCurrentAstronautResults } from "../utils/actions";
 import { useSearchParams } from "next/navigation";
+import { AstronautData } from "../utils/interfaces";
 
 interface LiveProps {
     id: string; // Replace 'string' with the appropriate type if needed
 }
-type AstronautData = {
-    name: String
-    description: String
-    effect: String
-    values: [String]
-    belongs_to: [String]
-    catagory: [String]
-    attached_to: [String]
-    is_live: Boolean
-    severity: String
-    bp : String
-    oxygen_level: String
-    Actuators : String 
-    leak_detection: String
-    rapid_pressurization: String
-    regulated_pressure: String
-    respiration_rate: String
-    body_temperature: String
-}
+
 
 const Live = () => {
     let {isLoggedIn} = useAuth();
