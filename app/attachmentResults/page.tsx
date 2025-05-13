@@ -1,39 +1,48 @@
 "use client";
 import { useEffect, useState } from "react";
-import { AstronautData } from "../utils/interfaces";
+import { AstronautData, PartialAttachmentResultsProps } from "../utils/interfaces";
+import React from "react";
+import { useAstronauts } from "../utils/astronautsProvider";
 
-const AstronautWithAdvancedAttachments = ({
-    showRespirationRate,
-    showBodyTemperature,
-    showBloodOxygen,
-    showRegulatedPressure,
-    showLeakDetection,
-    showHeartRate,
-    showActuators,
-    showBloodPressure,
-    astronautsData,
-  }: {
-    showRespirationRate?: boolean;
-    showBodyTemperature?: boolean;
-    showBloodOxygen?: boolean;
-    showRegulatedPressure?: boolean;
-    showLeakDetection?: boolean;
-    showMaterialInnovations?: boolean;
-    showRapidPressurization?: boolean;
-    showHeartRate?:boolean,
-    showActuators?:boolean,
-    showBloodPressure?:boolean,
-    astronautsData?: AstronautData[] | null;
-  }) => {
-    const centerX = 200; // Astronaut's center X
+// @ts-ignore
+const AstronautWithAdvancedAttachments: React.FC<{
+  // @ts-ignore
+  showRespirationRate?: boolean;
+  // @ts-ignore
+  showBodyTemperature?: boolean;
+  // @ts-ignore
+  showBloodOxygen?: boolean;
+  // @ts-ignore
+  showRegulatedPressure?: boolean;
+  // @ts-ignore
+  showLeakDetection?: boolean;
+  // @ts-ignore
+  showHeartRate?: boolean;
+  // @ts-ignore
+  showActuators?: boolean;
+  // @ts-ignore
+  showBloodPressure?: boolean;
+}> = ({
+  showRespirationRate = false,
+  showBodyTemperature  = false,
+  showBloodOxygen  = false,
+  showRegulatedPressure  = false,
+  showLeakDetection  = false,
+  showHeartRate = false,
+  showActuators = false,
+  showBloodPressure = false,
+  // astronautsData
+})  => {
+  const centerX = 200; // Astronaut's center X
   const centerY = 200; // Astronaut's center Y
   const radius = 180; // Distance from the astronaut to the rectangles
   const rectWidth = 60; // Width of the rectangles
   const rectHeight = 30; // H Above the rectangle
-  
-  let [currentCondition, setCurrentCondition] = useState<AstronautData | null>(null)
+
+  const [currentCondition, setCurrentCondition] = useState<AstronautData | null>(null)
   const previousHrtState = currentCondition?.name?.split(" ")
-  
+  const { astronautsData } = useAstronauts();
+
   if(previousHrtState){
   currentCondition?.values?.map((item:any, i:any) => {
     item = `${previousHrtState[i]} ${item}`
@@ -52,11 +61,8 @@ const AstronautWithAdvancedAttachments = ({
   ].filter((attachment) => attachment.show); // Only include active attachments
   
   useEffect(() => {
-    if (astronautsData) {
-      let randomIndex = Math.floor(Math.random() * astronautsData.length);
-      let randomData = astronautsData[randomIndex];
-      console.log("randomData", randomData);
-      setCurrentCondition(randomData);
+    if (astronautsData && astronautsData.length > 0) {
+      setCurrentCondition(astronautsData[0]); // Select the first object
     }
   }, [astronautsData]);
   
