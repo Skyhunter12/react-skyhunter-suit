@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../../utils/AuthContext";
 
 export default function GetProfile() {
-  const { isLoggedIn, login } = useAuth(); // Access the global auth state
+  const { isLoggedIn } = useAuth(); // Access the global auth state
   const router = useRouter();
   const [userData, setUserData] = useState<any>(null); // State to store user data
   const [loading, setLoading] = useState(true);
@@ -21,7 +21,6 @@ export default function GetProfile() {
         try {
           let {data} = JSON.parse(storedUserData)
           let token = localStorage.getItem('token')
-          login(token)   
           setUserData(data.login); // Parse user data
         } catch (error) {
           console.error("Error parsing user data:", error);

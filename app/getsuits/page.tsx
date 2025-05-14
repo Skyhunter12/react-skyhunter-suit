@@ -9,7 +9,7 @@ export default function GetSuits() {
   const [loading, setLoading] = useState(true);
   const [client, setClent] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { isLoggedIn, login } = useAuth(); // Access the global auth state
+  const { isLoggedIn } = useAuth(); // Access the global auth state
   
   const [moduleFilter, setModuleFilter] = useState<string>("All");
   const [nameFilter, setNameFilter] = useState<string>("All");
@@ -33,7 +33,6 @@ export default function GetSuits() {
 
           // Save token to localStorage and update global state
           let token =localStorage.getItem("token");
-          login(token); // Update the logged-in state in AuthContext
           const fetchSuits = async () => {
             try {
               let fetchdata = await getSuits(suitsByFeature, token||"")
@@ -54,7 +53,7 @@ export default function GetSuits() {
         setLoading(false)
     }
     setClent(true)
-  },  [moduleFilter, nameFilter, limit, page, isLoggedIn, login, router]);
+  },  [moduleFilter, nameFilter, limit, page, isLoggedIn, router]);
 
   const handleRowClick = async (id: string) => {
     try {

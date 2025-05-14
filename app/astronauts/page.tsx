@@ -29,7 +29,6 @@ export default function Astronauts() {
             setError("Authentication token is missing.");
             return;
           }
-          login(token); // Update the logged-in state in AuthContext
           const fetchAstronauts = async () => {
             try {
               let fetchdata = await getAstronauts(token||"")

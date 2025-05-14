@@ -13,7 +13,7 @@ export default function GetSuit() {
   const [modificationData, setModifcationsData] = useState<any>(null); // State to store suits data
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { isLoggedIn, login } = useAuth(); // Access the global auth state
+  const { isLoggedIn } = useAuth(); // Access the global auth state
   const router = useRouter()
   let searchParams = useSearchParams()
   let id = searchParams.get('id')
@@ -29,7 +29,6 @@ export default function GetSuit() {
         try {
           // Save token to localStorage and update global state
           let token =localStorage.getItem("token");
-          login(token); // Update the logged-in state in AuthContext
           const fetchSuit = async () => {
             try {
               let fetchdata = await getSuit(id, token||"")

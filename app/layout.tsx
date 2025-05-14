@@ -19,6 +19,7 @@ import SignUp from "./auth/signup/page";
 import Live from "./live/page";
 import type { AppProps } from "next/app";
 import { AstronautsProvider } from "./utils/astronautsProvider";
+import ErrorBoundary from "./errorboundary/page";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,9 +50,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
+          <ErrorBoundary>
           <AstronautsProvider>
             <AppContent {...AppProps} />
           </AstronautsProvider>
+          </ErrorBoundary>
         </AuthProvider>
       </body>
     </html>
