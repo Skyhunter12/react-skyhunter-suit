@@ -15,5 +15,12 @@ const nextjsServer = next({
 const nextjsHandle = nextjsServer.getRequestHandler();
 
 exports.next_app = onRequest((req, res) => {
-  return nextjsServer.prepare().then(() => nextjsHandle(req, res));
+  return nextjsServer.prepare().then(() => {
+    try {
+      return nextjsHandle(req, res);
+    } catch (error) {
+      console.error("Error handling request:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
 });

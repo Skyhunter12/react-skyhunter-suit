@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   eslint:{
     ignoreDuringBuilds:true
   },
+  reactStrictMode: true,
   distDir:"next",
   async rewrites() {
     return [

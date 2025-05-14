@@ -16,5 +16,6 @@
       "npm --prefix \"$PROJECT_DIR\" run build"
     ],
     "runtime": "nodejs18"
-  }
+  },
+  "cleanUrls": true
 }
