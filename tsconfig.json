@@ -39,5 +39,7 @@
   "exclude": [
     "node_modules"
   ],
-  "suppressImplicitAnyIndexErrors": true
+  "suppressImplicitAnyIndexErrors": true,
+  "jsx": "react-jsx",
+  "esModuleInterop": true,
 }
