@@ -1,8 +1,9 @@
 "use server";
 import axios from "axios";
-const APP_URL = process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || ''
-  
-export async function getSuits(suitsByFeature: any, token:string) {
+const APP_URL =
+  process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || "";
+
+export async function getSuits(suitsByFeature: any, token: string) {
   const query = `
     query SuitsByFeature($feature: fetchfeature) {
       SuitsByFeature(feature: $feature) {
@@ -34,7 +35,7 @@ export async function getSuits(suitsByFeature: any, token:string) {
      }
     }
   `;
-    
+  try {
   const response = await axios.post(
     APP_URL,
     {
@@ -49,9 +50,18 @@ export async function getSuits(suitsByFeature: any, token:string) {
       },
     }
   );
-  return response.data;
+  if (response && response.data) {
+    return response.data; // Return the data directly if it's valid
+  } else {
+    console.error("Empty or invalid response:", response);
+    return {}; // Return an empty object as a fallback
+  }
+  } catch (error) {
+    console.error("Error fetching suits:", error);
+    throw new Error(`Failed to fetch suits: ${error.message}`);
+  }
 }
-export async function getAstronauts(token:string) {
+export async function getAstronauts(token: string) {
   const query = `query Persons {
   Persons {
     id
@@ -88,7 +98,7 @@ export async function getAstronauts(token:string) {
     }
   }
 }`;
-    
+  try {
   const response = await axios.post(
     APP_URL,
     {
@@ -97,16 +107,25 @@ export async function getAstronauts(token:string) {
     },
     {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        "Cache-Control": "no-cache, no-store, must-revalidate",
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
     }
   );
-  return response.data;
+  if (response && response.data) {
+    return response.data; // Return the data directly if it's valid
+  } else {
+    console.error("Empty or invalid response:", response);
+    return {}; // Return an empty object as a fallback
+  }
+  } catch (error) {
+    console.error("Error fetching suits:", error);
+    throw new Error(`Failed to fetch suits: ${error.message}`);
+  }
 }
 
-export async function getSuit(id: any, token:string) {
+export async function getSuit(id: any, token: string) {
   const query = `
     query SuitsById($id: ID!) {
   SuitsById(id: $id) {
@@ -129,7 +148,7 @@ export async function getSuit(id: any, token:string) {
     updatedAt
   }
 }`;
-    
+  try {
   const response = await axios.post(
     APP_URL,
     {
@@ -138,16 +157,25 @@ export async function getSuit(id: any, token:string) {
     },
     {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        "Cache-Control": "no-cache, no-store, must-revalidate",
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
     }
   );
-  
-  return await response.data;
+
+  if (response && response.data) {
+    return response.data; // Return the data directly if it's valid
+  } else {
+    console.error("Empty or invalid response:", response);
+    return {}; // Return an empty object as a fallback
+  }
+  } catch (error) {
+    console.error("Error fetching suits:", error);
+    throw new Error(`Failed to fetch suits: ${error.message}`);
+  }
 }
-export async function getAstronaut(id: any, token:string) {
+export async function getAstronaut(id: any, token: string) {
   const query = `query PersonById($personById: ID!) {
   PersonById(id: $personById) {
     id
@@ -185,7 +213,8 @@ export async function getAstronaut(id: any, token:string) {
     }
   }
 }`;
-    
+
+  try {
   const response = await axios.post(
     APP_URL,
     {
@@ -194,18 +223,31 @@ export async function getAstronaut(id: any, token:string) {
     },
     {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        "Cache-Control": "no-cache, no-store, must-revalidate",
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
     }
   );
-  
-  return await response.data;
+
+  if (response && response.data) {
+    return response.data; // Return the data directly if it's valid
+  } else {
+    console.error("Empty or invalid response:", response);
+    return {}; // Return an empty object as a fallback
+  }
+  } catch (error) {
+    console.error("Error fetching suits:", error);
+    throw new Error(`Failed to fetch suits: ${error.message}`);
+  }
 }
 
-export async function getAttachments(attachementsPayload: any, token:string, page:any, limit:any) {
-  
+export async function getAttachments(
+  attachementsPayload: any,
+  token: string,
+  page: any,
+  limit: any
+) {
   const query = `query Attachements($feature: attachment_by_feature, $page: Int, $limit: Int) {
     Attachements(feature: $feature, page: $page, limit: $limit) {
       page
@@ -246,30 +288,34 @@ export async function getAttachments(attachementsPayload: any, token:string, pag
     }
   }
 `;
-    try{
-  const response = await axios.post(
-    APP_URL,
-    {
-      query,
-      variables: { feature: attachementsPayload, page:page, limit:limit },
-    },
-    {
-      headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        "Content-Type": "application/json",
-        Authorization: token, // Include the token in the Authorization header
+  try {
+    const response = await axios.post(
+      APP_URL,
+      {
+        query,
+        variables: { feature: attachementsPayload, page: page, limit: limit },
       },
+      {
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Content-Type": "application/json",
+          Authorization: token, // Include the token in the Authorization header
+        },
+      }
+    );
+    if (response && response.data) {
+      return response.data; // Return the data directly if it's valid
+    } else {
+      console.error("Empty or invalid response:", response);
+      return {}; // Return an empty object as a fallback
     }
-  );
-  return response.data;
-}catch(err){
-  console.log(err);
-  throw new Error(`${err}`)
-  
-}
+  } catch (err) {
+    console.log(err);
+    throw new Error(`${err}`);
+  }
 }
 
-export async function getAttachment(id: any, token:string) {
+export async function getAttachment(id: any, token: string) {
   const query = `query PersonById($personById: ID!) {
   PersonById(id: $personById) {
     id
@@ -307,8 +353,8 @@ export async function getAttachment(id: any, token:string) {
     }
   }
 }`;
-    console.log("actions", token);
-    
+  console.log("actions", token);
+  try {
   const response = await axios.post(
     APP_URL,
     {
@@ -322,11 +368,25 @@ export async function getAttachment(id: any, token:string) {
       },
     }
   );
-  
-  return await response.data;
+
+  if (response && response.data) {
+    return response.data; // Return the data directly if it's valid
+  } else {
+    console.error("Empty or invalid response:", response);
+    return {}; // Return an empty object as a fallback
+  }
+  } catch (error) {
+    console.error("Error fetching suits:", error);
+    throw new Error(`Failed to fetch suits: ${error.message}`);
+  }
 }
 
-export async function getCurrentAstronautResults(feature:any, token:string, page:any, limit:any){
+export async function getCurrentAstronautResults(
+  feature: any,
+  token: string,
+  page: any,
+  limit: any
+) {
   let query = `query Query( $page: Int, $limit: Int, $feature: attachment_results_by_feature) {
   AttachementResults(page: $page, limit: $limit, feature: $feature) {
     page
@@ -348,19 +408,29 @@ export async function getCurrentAstronautResults(feature:any, token:string, page
   }
 }`;
 
+  try {
   const response = await axios.post(
     APP_URL,
     {
       query,
-      variables: { feature: await feature, page:page, limit:limit },
+      variables: { feature: await feature, page: page, limit: limit },
     },
     {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        "Cache-Control": "no-cache, no-store, must-revalidate",
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
     }
   );
-  return response.data;
+  if (response && response.data) {
+    return response.data; // Return the data directly if it's valid
+  } else {
+    console.error("Empty or invalid response:", response);
+    return {}; // Return an empty object as a fallback
+  }
+  } catch (error) {
+    console.error("Error fetching suits:", error);
+    throw new Error(`Failed to fetch suits: ${error.message}`);
+  }
 }
