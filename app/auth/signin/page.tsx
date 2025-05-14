@@ -59,13 +59,13 @@ export default function SignIn() {
  
           let response = await axios.request(config)
           .then(async(response) => {
-            let data = JSON.stringify(response.data)
-            console.log(data)
-             localStorage.setItem("userData", data);
-             const token = JSON.parse(data).data.login.tokens[0].token;
+            let data = await response.data;
+            
+            localStorage.setItem("userData", JSON.stringify(data));
+             const token = data?.data?.login?.tokens[0].token;
              localStorage.setItem("token", token);
-            console.log("sign in 63", token)
-            await login(token)
+            
+             await login(token)
             router.push('/profile')
             return response
           })
