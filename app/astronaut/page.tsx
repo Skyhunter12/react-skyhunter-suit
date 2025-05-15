@@ -4,6 +4,7 @@ import { getAstronaut } from "../utils/actions";
 import { useAuth } from "../utils/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography, MDBIcon } from 'mdb-react-ui-kit';
+import Link from "next/link";
 
 export default function Astronaut() {
   const [astronautData, setAstronautData] = useState<any>(null); // State to store suits data
@@ -99,7 +100,7 @@ export default function Astronaut() {
                               <MDBTypography tag="h6" >Information</MDBTypography>
                               <div className="pt-1 d-flex justify-content-between">
                               <a href="#!" className="text-muted text-start">Edit</a>
-                              <a className="text-end" href={`/live/?id=${ astronautData.id }`}>Live Status</a>
+                              <Link className="text-end" href={`/live/?id=${ astronautData.id }`}>Live Status</Link>
                               </div>
                               <hr className="mt-0 mb-4" />
                               <MDBRow className="pt-1">

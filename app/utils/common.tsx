@@ -14,15 +14,3 @@ export async function checkRole(userRole:string, req_role:string){
         return true;
 }
 
-export async function getParsedLocalStorageItem(key: string) {
-  let item = localStorage.getItem(key);
-  if (item) {
-    try {
-      return JSON.parse(item); // Automatically parses the data
-    } catch (error) {
-      console.error(`Error parsing localStorage item "${key}":`, error);
-      return {data:""}; // Return null if parsing fails
-    }
-  }
-  return null; // Return null if the item doesn't exist
-}

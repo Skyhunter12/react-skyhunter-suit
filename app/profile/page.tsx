@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../utils/AuthContext";
-import { getParsedLocalStorageItem } from "../../utils/common";
+import { useAuth } from "../utils/AuthContext";
 
 export default function GetProfile() {
   const { isLoggedIn } = useAuth(); // Access the global auth state

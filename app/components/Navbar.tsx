@@ -1,7 +1,7 @@
 // Navbar.js
 "use client"; // This is a client component 👈🏽
-import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React from "react";
 import { MdModeStandby } from "react-icons/md";
 import { useAuth } from "../utils/AuthContext";
 import Link from "next/link"; // Import Link from Next.js
@@ -46,7 +46,7 @@ const Navbar = () => {
                 </p>
               </button>
             ) : (
-              <a
+              <Link
                 href={x.url}>
                 <div className="flex items-center gap-2 w-full text-left">
                   <MdModeStandby className="sm:text-4xl text-2xl text-primary group-hover:text-accent transition-all ease-in-out duration-700 sm:ml-2 flex-shrink-0" />
@@ -54,7 +54,7 @@ const Navbar = () => {
                     {x.name}
                   </p>
                 </div>
-              </a>
+              </Link>
             )}
           </li>
         ))}

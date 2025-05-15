@@ -1,7 +1,13 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-const AuthContext = createContext<any>(undefined);
+interface AuthContextType {
+  isLoggedIn: boolean;
+  login: (token: string) => void;
+  logout: () => void;
+}
+
+const AuthContext = createContext<AuthContextType |undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -9,7 +15,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Check if a token exists in localStorage to determine logged-in state
     const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // Set `isLoggedIn` to true if a token exists
+    if(token){
+    setIsLoggedIn(!!token);
+    } // Set `isLoggedIn` to true if a token exists
   }, []);
 
   const login = (token: string) => {

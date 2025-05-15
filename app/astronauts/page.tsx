@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getAstronaut, getAstronauts } from "../utils/actions";
+import { getAstronauts } from "../utils/actions";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../utils/AuthContext";
 import React from "react";
@@ -49,7 +49,7 @@ export default function Astronauts() {
         setLoading(false)
         setClent(true)
     }
-  },  [isLoggedIn, login]);
+  },  [isLoggedIn, login, router]);
 
   const handleRowClick = async (id: string) => {
     try {
@@ -106,7 +106,7 @@ export default function Astronauts() {
                     className="hover:bg-gray-100 cursor-pointer"
                      // Fetch details on row click
                   >
-                    <td className="border border-gray-300 px-2 py-2">{astronaut?.firstName} {astronaut?.lastName} <a href={`/astronaut/?id=${ astronaut.id }`}>more</a></td>
+                    <td className="border border-gray-300 px-2 py-2">{astronaut?.firstName} {astronaut?.lastName} <Link href={`/astronaut/?id=${ astronaut.id }`}>more</Link></td>
                     <td className="border border-gray-300 px-2 py-2">{astronaut?.specialisation}</td>
                     <td className="border border-gray-300 px-2 py-2">{astronaut?.photo?.url}</td>
                     <td className="border border-gray-300 px-2 py-2">{astronaut?.phone}</td>
