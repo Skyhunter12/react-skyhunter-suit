@@ -37,7 +37,17 @@ export default function GetSuits() {
             try {
               let fetchdata = await getSuits(suitsByFeature, token||"")
               console.log("fetchdata",fetchdata.data.SuitsByFeature.suits)
+              if (!fetchdata?.data?.SuitsByFeature) {
+                console.error("No data found for the given filters");
+                setError("No data found for the given filters.");
+                return;
+              }
+              if(!fetchdata?.data?.SuitsByFeature.suits) {
               setSuitsData(fetchdata?.data?.SuitsByFeature?.suits)
+              }else{
+                setError("No suits data found.");
+                setSuitsData([]);
+              }
             } catch (err) {
               console.error("Error fetching suits data:", err);
               setError("Failed to fetch suits data.");

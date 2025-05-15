@@ -33,7 +33,18 @@ export default function GetSuit() {
             try {
               let fetchdata = await getSuit(id, token||"")
               console.log(fetchdata?.data?.SuitsById)
-              setSuitData(fetchdata?.data?.SuitsById)
+              if (!fetchdata?.data?.SuitsById) {
+                console.error("No data found for the given filters");
+                setError("No data found for the given filters.");
+                return;
+              }
+              if(fetchdata.data.SuitsById){
+                setSuitData(fetchdata?.data?.SuitsById)
+
+              }else{
+                setError("No suits data found.");
+                setSuitData([]);
+              }
               setModifcationsData(fetchdata?.data?.SuitsById.functional_modifications.slice(-1))
             } catch (err) {
               console.error("Error fetching suits data:", err);

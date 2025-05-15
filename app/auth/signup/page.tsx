@@ -46,7 +46,7 @@ export default function SignUp({
   const [phone, setPhone] = useState('');
   const [confirm_password, setConfirmPassword] = useState('');
   
-  const [country, setCountry] = useState<string | undefined>(undefined);
+  const [country, setCountry] = useState<CountryCode | undefined>(undefined);
   const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
   const [defaultCountry, setDefaultCountry] = useState<string | undefined>(undefined);
    const htmlFor = useMemo(() => `phone-${Math.random()}`, []);
@@ -71,7 +71,7 @@ export default function SignUp({
   
     if (country) {
       try {
-        const valueWithoutCountryCode = val.slice(1 + getCountryCallingCode(JSON.parse(country)).length);
+        const valueWithoutCountryCode = val.slice(1 + getCountryCallingCode(country).length);
         console.log('Parsed Phone Number:', valueWithoutCountryCode);
         setPhone(valueWithoutCountryCode); // Set the parsed phone number
       } catch (error) {

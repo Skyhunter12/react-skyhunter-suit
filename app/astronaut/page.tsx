@@ -48,7 +48,17 @@ export default function Astronaut() {
     try {
       let fetchdata = await getAstronaut(id, token||"")
       console.log(fetchdata.data.PersonById)
-      setAstronautData(fetchdata.data.PersonById)
+      if (!fetchdata?.data?.PersonById) {
+        console.error("No data found for the given filters");
+        setError("No data found for the given filters.");
+        return;
+      }
+      if(fetchdata.data.PersonById){
+        setAstronautData(fetchdata?.data?.PersonById)
+      }
+      else{
+      setAstronautData([])
+      }
     } catch (err) {
       console.error("Error fetching suits data:", err);
       setError("Failed to fetch suits data.");

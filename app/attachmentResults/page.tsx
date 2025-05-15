@@ -63,6 +63,8 @@ const AstronautWithAdvancedAttachments: React.FC<{
   useEffect(() => {
     if (astronautsData && astronautsData.length > 0) {
       setCurrentCondition(astronautsData[0]); // Select the first object
+    }else{
+      setCurrentCondition(null); // Reset if no data
     }
   }, [astronautsData]);
   

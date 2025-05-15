@@ -33,7 +33,17 @@ export default function Astronauts() {
             try {
               let fetchdata = await getAstronauts(token||"")
               console.log("fetchdata",fetchdata.data)
-                setAstronautsData(fetchdata?.data?.Persons)
+              if (!fetchdata?.data?.Persons) {
+                console.error("No data found for the given filters");
+                setError("No data found for the given filters.");
+                return;
+              }
+              if(fetchdata.data.Persons){ 
+              setAstronautsData(fetchdata?.data?.Persons)
+              }else{
+                setError("No astronauts data found.");
+                setAstronautsData([]);
+              }
             } catch (err) {
               console.error("Error fetching astronauts data:", err);
               setError("Failed to fetch astronauts data.");
