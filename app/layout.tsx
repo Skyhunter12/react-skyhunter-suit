@@ -4,8 +4,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import { AuthProvider, useAuth } from "./utils/AuthContext";
-import { JSX } from "react";
+import { AuthProvider } from "./utils/AuthContext";
+import { JSX, Suspense } from "react";
 import { AstronautsProvider } from "./utils/astronautsProvider";
 
 const geistSans = Geist({
@@ -21,10 +21,8 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({
   children,
-  AppProps,
 }: {
   children: React.ReactNode;
-  AppProps: JSX.Element;
 }) {
   return (
     <html lang="en">
@@ -35,7 +33,10 @@ export default function RootLayout({
         <AuthProvider>
           <AstronautsProvider>
             <Navbar />
-            <main>{children}</main>
+            <Suspense fallback={<div>Loading...</div>}>
+              <main>{children}</main>
+            
+            </Suspense>
           </AstronautsProvider>
         </AuthProvider>
       </body>
