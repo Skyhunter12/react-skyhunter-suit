@@ -13,3 +13,16 @@ exports.checkRole = async function(userRole:string, req_role:string){
         }
         return true;
 }
+
+export function getParsedLocalStorageItem(key: string) {
+  const item = localStorage.getItem(key);
+  if (item) {
+    try {
+      return JSON.parse(item); // Automatically parses the data
+    } catch (error) {
+      console.error(`Error parsing localStorage item "${key}":`, error);
+      return null; // Return null if parsing fails
+    }
+  }
+  return null; // Return null if the item doesn't exist
+}

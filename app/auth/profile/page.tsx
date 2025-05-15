@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../utils/AuthContext";
+import { getParsedLocalStorageItem } from "@/app/utils/common";
 
 export default function GetProfile() {
   const { isLoggedIn } = useAuth(); // Access the global auth state
@@ -15,7 +16,7 @@ export default function GetProfile() {
       router.push("/signin");
     } else {
       // Fetch user data
-      const storedUserData = localStorage.getItem("userData");
+      const storedUserData = getParsedLocalStorageItem("userData");
       
       if (storedUserData) {
         try {
