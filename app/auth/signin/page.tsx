@@ -62,7 +62,7 @@ export default function SignIn() {
             let data = await response.data;
             
             localStorage.setItem("userData", JSON.stringify(data));
-             const token = data?.data?.login?.tokens[0].token;
+             const token = await data?.data?.login?.tokens[0].token;
              localStorage.setItem("token", token);
             
              await login(token)
