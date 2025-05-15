@@ -114,7 +114,7 @@ export async function getAstronauts(token: string) {
     }
   );
   if (response && response.data) {
-    return response.data; // Return the data directly if it's valid
+    return await response?.data; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
     return {}; // Return an empty object as a fallback
@@ -165,7 +165,7 @@ export async function getSuit(id: any, token: string) {
   );
 
   if (response && response.data) {
-    return response.data; // Return the data directly if it's valid
+    return await response.data; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
     return {}; // Return an empty object as a fallback
@@ -231,7 +231,7 @@ export async function getAstronaut(id: any, token: string) {
   );
 
   if (response && response.data) {
-    return response.data; // Return the data directly if it's valid
+    return await response.data; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
     return {}; // Return an empty object as a fallback
@@ -304,7 +304,7 @@ export async function getAttachments(
       }
     );
     if (response && response.data) {
-      return response.data; // Return the data directly if it's valid
+      return await response.data; // Return the data directly if it's valid
     } else {
       console.error("Empty or invalid response:", response);
       return {}; // Return an empty object as a fallback
@@ -370,7 +370,7 @@ export async function getAttachment(id: any, token: string) {
   );
 
   if (response && response.data) {
-    return response.data; // Return the data directly if it's valid
+    return await response.data; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
     return {}; // Return an empty object as a fallback
@@ -424,7 +424,7 @@ export async function getCurrentAstronautResults(
     }
   );
   if (response && response.data) {
-    return response.data; // Return the data directly if it's valid
+    return await response.data; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
     return {}; // Return an empty object as a fallback
