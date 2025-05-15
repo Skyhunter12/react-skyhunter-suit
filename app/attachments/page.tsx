@@ -15,7 +15,7 @@ export default function Attachments() {
   const [limit, setLimit] = useState<string | number>(10);
   const { isLoggedIn, login } = useAuth(); // Access the global auth state
   const router = useRouter(); // Initialize useRouter
-  const token = localStorage.getItem('token') || "";
+  
   const [attachmentsFeature, setAttachmentsFeature] = useState({
     body_part_belongs: [
       "wrist",
@@ -49,18 +49,19 @@ export default function Attachments() {
     if (!isLoggedIn) {
       router.push("/signin");
     } else {
+      const token = localStorage.getItem('token') || "";
         if (!token) {
           console.error("Token not found in localStorage");
           setError("Authentication token is missing.");
           return;
         }  
-        fetchAttachments();
+        fetchAttachments(token);
         setLoading(false)
     }
     setClent(true)
   },  [isLoggedIn, attachmentsFeature, page, limit]);
   
-  const fetchAttachments = async () => {
+  const fetchAttachments = async (token:string) => {
     try {
       setLoading(true)
       let fetchdata = await getAttachments(attachmentsFeature, token||"", page, limit)
