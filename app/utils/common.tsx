@@ -1,6 +1,6 @@
 import {roles} from './../utils/constants'
 
-exports.checkRole = async function(userRole:string, req_role:string){
+export async function checkRole(userRole:string, req_role:string){
     const userRoleIndex = roles.indexOf(userRole);
         const requestedRoleIndex = roles.indexOf(req_role);
 
@@ -14,7 +14,7 @@ exports.checkRole = async function(userRole:string, req_role:string){
         return true;
 }
 
-exports.getParsedLocalStorageItem=  function (key: string) {
+export function getParsedLocalStorageItem(key: string) {
   const item = localStorage.getItem(key);
   if (item) {
     try {
