@@ -20,7 +20,7 @@ export default function GetProfile() {
       
       if (storedUserData) {
         try {
-          let {data} = JSON.parse(storedUserData)
+          let {data} = storedUserData
           let token = localStorage.getItem('token')
           setUserData(data.login); // Parse user data
         } catch (error) {
