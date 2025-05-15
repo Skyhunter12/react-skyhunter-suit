@@ -14,7 +14,7 @@ exports.checkRole = async function(userRole:string, req_role:string){
         return true;
 }
 
-export function getParsedLocalStorageItem(key: string) {
+exports.getParsedLocalStorageItem=  function (key: string) {
   const item = localStorage.getItem(key);
   if (item) {
     try {
