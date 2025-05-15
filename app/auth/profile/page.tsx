@@ -16,13 +16,18 @@ export default function GetProfile() {
       router.push("/signin");
     } else {
       // Fetch user data
-      const storedUserData = getParsedLocalStorageItem("userData");
+      const storedUserData = localStorage.getItem("userData");
       
       if (storedUserData) {
         try {
-          let {data} = storedUserData
-          let token = localStorage.getItem('token')
-          setUserData(data.login); // Parse user data
+            const params = new URLSearchParams(storedUserData);
+          const userData = {
+            first_name: params.get("first_name"),
+            last_name: params.get("last_name"),
+            email: params.get("email"),
+            role: params.get("role"),
+          };
+          setUserData(userData); // Parse user data
         } catch (error) {
           console.error("Error parsing user data:", error);
         }

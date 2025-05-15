@@ -33,7 +33,7 @@ export default function Astronauts() {
             try {
               let fetchdata = await getAstronauts(token||"")
               console.log("fetchdata",fetchdata.data)
-                setAstronautsData(fetchdata.data.Persons)
+                setAstronautsData(fetchdata?.data?.Persons)
             } catch (err) {
               console.error("Error fetching astronauts data:", err);
               setError("Failed to fetch astronauts data.");

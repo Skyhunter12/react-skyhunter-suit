@@ -60,8 +60,8 @@ export default function SignIn() {
           let response = await axios.request(config)
           .then(async(response) => {
             let data = await response.data;
-            
-            localStorage.setItem("userData", JSON.stringify(data));
+             const userData = `first_name=${data?.data?.login?.first_name}&last_name=${data?.data?.login?.last_name}&email=${data?.data?.login?.email}&role=${data?.data?.login?.role}&token=${data?.data?.login?.tokens[0].token}`;
+              localStorage.setItem("userData", userData);
              const token = await data?.data?.login?.tokens[0].token;
              localStorage.setItem("token", token);
             
