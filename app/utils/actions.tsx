@@ -48,7 +48,6 @@ export async function getSuits(suitsByFeature: any, token: string) {
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
         "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Access-Control-Allow-Origin": "*",
       },
     }
   );
@@ -110,7 +109,6 @@ export async function getAstronauts(token: string) {
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
@@ -161,7 +159,6 @@ export async function getSuit(id: any, token: string) {
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
@@ -228,7 +225,6 @@ export async function getAstronaut(id: any, token: string) {
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
@@ -303,7 +299,6 @@ export async function getAttachments(
       {
         headers: {
           "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
           Authorization: token, // Include the token in the Authorization header
         },
@@ -424,7 +419,6 @@ export async function getCurrentAstronautResults(
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
         Authorization: token, // Include the token in the Authorization header
       },
