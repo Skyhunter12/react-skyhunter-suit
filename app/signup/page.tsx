@@ -11,8 +11,8 @@ import de from 'react-phone-number-input/locale/de';
 import pl from 'react-phone-number-input/locale/pl';
 import pt from 'react-phone-number-input/locale/pt';
 import libphonenumber from 'google-libphonenumber';
-import PhoneInputCountrySelect from '../../utils/PhoneInputCountrySelect';
-import {roles} from '../../utils/constants'
+import PhoneInputCountrySelect from '../utils/PhoneInputCountrySelect';
+import {roles} from '../utils/constants'
 import gql from 'graphql-tag';
 import { print } from 'graphql';
 

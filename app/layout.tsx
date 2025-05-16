@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import { AuthProvider } from "./utils/AuthContext";
-import { JSX, Suspense } from "react";
+import { Suspense } from "react";
 import { AstronautsProvider } from "./utils/astronautsProvider";
 
 const geistSans = Geist({
