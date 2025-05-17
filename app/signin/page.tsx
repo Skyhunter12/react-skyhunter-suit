@@ -16,7 +16,7 @@ export default function SignIn() {
     
     const handleSubmit = async (event: FormEvent<HTMLFormElement>)=> {
     event.preventDefault();
-    console.log("hi signin")
+    
     const formData = new FormData(event.currentTarget)
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
@@ -45,7 +45,7 @@ export default function SignIn() {
               user: loginUser
             }
           }
-          console.log(gqlModifiedQuery)
+          
           let config = {
             method: 'post',
             url: APP_URL,
@@ -56,7 +56,7 @@ export default function SignIn() {
             data : payload
           };
  
-          let response = await axios.request(config)
+          await axios.request(config)
           .then(async(response) => {
             let data = await response.data;
              const userData = `first_name=${data?.data?.login?.first_name}&last_name=${data?.data?.login?.last_name}&email=${data?.data?.login?.email}&role=${data?.data?.login?.role}&token=${data?.data?.login?.tokens[0].token}`;
