@@ -15,7 +15,7 @@
       "npm --prefix \"$PROJECT_DIR\" install",
       "npm --prefix \"$PROJECT_DIR\" run build"
     ],
-    "runtime": "nodejs20"
+    "runtime": "nodejs22"
   },
   "cleanUrls": true
 }

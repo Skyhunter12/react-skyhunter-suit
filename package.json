@@ -10,7 +10,7 @@
     "deploy": "firebase deploy --only hosting,functions:next_app"
   },
   "engines": {
-    "node": "18"
+    "node": "22"
   },
   "main": "index.js",
   "dependencies": {
