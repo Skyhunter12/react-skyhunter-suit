@@ -52,14 +52,30 @@ export async function getSuits(suitsByFeature: any, token: string) {
     }
   );
   if (response && response.data) {
-    return response.data; // Return the data directly if it's valid
+    if (response.data.errors) {
+      // GraphQL error occurred
+      return {
+        data: response.data.data || null,
+        errors: response.data.errors,
+      };
+    }
+    // Success
+    return { data: response.data, errors: null }; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
-    return {}; // Return an empty object as a fallback
+    return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
   }
   } catch (error) {
     console.error("Error fetching suits:", error);
-    throw new Error(`Failed to fetch suits: ${error.message}`);
+    return {
+    data: null,
+    errors: [
+      {
+        message: error?.message || "Unknown error",
+        ...(error?.response?.data?.errors?.[0] || {}),
+      },
+    ],
+  };
   }
 }
 export async function getAstronauts(token: string) {
@@ -118,12 +134,19 @@ export async function getAstronauts(token: string) {
     return await response?.data; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
-    return {}; // Return an empty object as a fallback
+    return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
   }
   } catch (error) {
     console.error("Error fetching suits:", error);
-    throw new Error(`Failed to fetch suits: ${error.message}`);
-  }
+return {
+    data: null,
+    errors: [
+      {
+        message: error?.message || "Unknown error",
+        ...(error?.response?.data?.errors?.[0] || {}),
+      },
+    ],
+  };  }
 }
 
 export async function getSuit(id: any, token: string) {
@@ -169,12 +192,19 @@ export async function getSuit(id: any, token: string) {
     return await response.data; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
-    return {}; // Return an empty object as a fallback
+    return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
   }
   } catch (error) {
     console.error("Error fetching suits:", error);
-    throw new Error(`Failed to fetch suits: ${error.message}`);
-  }
+return {
+    data: null,
+    errors: [
+      {
+        message: error?.message || "Unknown error",
+        ...(error?.response?.data?.errors?.[0] || {}),
+      },
+    ],
+  };  }
 }
 export async function getAstronaut(id: any, token: string) {
   const query = `query PersonById($personById: ID!) {
@@ -235,11 +265,19 @@ export async function getAstronaut(id: any, token: string) {
     return await response.data; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
-    return {}; // Return an empty object as a fallback
+    return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
   }
   } catch (error) {
     console.error("Error fetching suits:", error);
-    throw new Error(`Failed to fetch suits: ${error.message}`);
+    return {
+      data: null,
+      errors: [
+        {
+          message: error?.message || "Unknown error",
+          ...(error?.response?.data?.errors?.[0] || {}),
+        },
+      ],
+    };
   }
 }
 
@@ -308,11 +346,19 @@ export async function getAttachments(
       return await response.data; // Return the data directly if it's valid
     } else {
       console.error("Empty or invalid response:", response);
-      return {}; // Return an empty object as a fallback
+    return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
     }
   } catch (err) {
     console.log(err);
-    throw new Error(`${err}`);
+    return {
+      data: null,
+      errors: [
+        {
+          message: err?.message || "Unknown error",
+          ...(err?.response?.data?.errors?.[0] || {}),
+        },
+      ],
+    };  
   }
 }
 
@@ -374,11 +420,19 @@ export async function getAttachment(id: any, token: string) {
     return await response.data; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
-    return {}; // Return an empty object as a fallback
+    return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
   }
   } catch (error) {
     console.error("Error fetching suits:", error);
-    throw new Error(`Failed to fetch suits: ${error.message}`);
+    return {
+      data: null,
+      errors: [
+        {
+          message: error?.message || "Unknown error",
+          ...(error?.response?.data?.errors?.[0] || {}),
+        },
+      ],
+    };  
   }
 }
 
@@ -428,10 +482,18 @@ export async function getCurrentAstronautResults(
     return await response.data; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
-    return {}; // Return an empty object as a fallback
+    return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
   }
   } catch (error) {
     console.error("Error fetching suits:", error);
-    throw new Error(`Failed to fetch suits: ${error.message}`);
+    return {
+      data: null,
+      errors: [
+        {
+          message: error?.message || "Unknown error",
+          ...(error?.response?.data?.errors?.[0] || {}),
+        },
+      ],
+    };  
   }
 }
