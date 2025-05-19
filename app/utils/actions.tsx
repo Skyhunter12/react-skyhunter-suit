@@ -63,15 +63,16 @@ export async function getSuits(suitsByFeature: any, token: string) {
     return response.data;
   } catch (error: any) {
     console.log(error);
-    return {
-      data: null,
-      errors: [
-        {
-          message: error?.message || "Unknown error",
-          ...(error?.response?.data?.errors?.[0] || {}),
-        },
-      ],
-    };
+    if (error.response) {
+    console.error('Server responded with non-2xx status:', error.response.status);
+    console.error('Headers:', error.response.headers);
+    console.error('Response Data:', error.response.data);
+  } else if (error.request) {
+    console.error('No response received:', error.request);
+  } else {
+    console.error('Axios error setting up request:', error.message);
+  }
+  throw error;    
   }
 }
 export async function getAstronauts(token: string) {
