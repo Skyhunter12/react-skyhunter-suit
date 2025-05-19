@@ -38,11 +38,10 @@ export async function getSuits(suitsByFeature: any, token: string) {
   try {
   const response = await axios.post(
     APP_URL,
-    {
+    JSON.stringify({
       query,
       variables: { feature: await suitsByFeature },
-      cache: "no-store",
-    },
+    }),
     {
       headers: {
         "Content-Type": "application/json",
@@ -118,10 +117,10 @@ export async function getAstronauts(token: string) {
   try {
   const response = await axios.post(
     APP_URL,
-    {
+    JSON.stringify({
       query,
       cache: "no-store",
-    },
+    }),
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -175,10 +174,10 @@ export async function getSuit(id: any, token: string) {
   try {
   const response = await axios.post(
     APP_URL,
-    {
+    JSON.stringify({
       query,
       variables: { id: id },
-    },
+    }),
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -248,10 +247,10 @@ export async function getAstronaut(id: any, token: string) {
   try {
   const response = await axios.post(
     APP_URL,
-    {
+    JSON.stringify({
       query,
       variables: { personById: id },
-    },
+    }),
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -330,10 +329,10 @@ export async function getAttachments(
   try {
     const response = await axios.post(
       APP_URL,
-      {
+      JSON.stringify({
         query,
         variables: { feature: attachementsPayload, page: page, limit: limit },
-      },
+      }),
       {
         headers: {
           "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -400,14 +399,14 @@ export async function getAttachment(id: any, token: string) {
     }
   }
 }`;
-  console.log("actions", token);
-  try {
+  
+try {
   const response = await axios.post(
     APP_URL,
-    {
+    JSON.stringify({
       query,
       variables: { personById: id },
-    },
+    }),
     {
       headers: {
         "Content-Type": "application/json",
@@ -466,10 +465,10 @@ export async function getCurrentAstronautResults(
   try {
   const response = await axios.post(
     APP_URL,
-    {
+    JSON.stringify({
       query,
       variables: { feature: await feature, page: page, limit: limit },
-    },
+    }),
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
