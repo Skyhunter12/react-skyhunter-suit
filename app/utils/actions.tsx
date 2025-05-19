@@ -1,10 +1,12 @@
 "use server";
 import axios from "axios";
+import gql from "graphql-tag";
+import { print } from "graphql";
 const APP_URL =
   process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || "";
 
 export async function getSuits(suitsByFeature: any, token: string) {
-  const query = `
+  const query = gql`
     query SuitsByFeature($feature: fetchfeature) {
       SuitsByFeature(feature: $feature) {
         suits {
@@ -35,46 +37,41 @@ export async function getSuits(suitsByFeature: any, token: string) {
      }
     }
   `;
-  try {
-  const response = await axios.post(
-    APP_URL,
-    JSON.stringify({
-      query,
-      variables: { feature: await suitsByFeature },
-    }),
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-      },
+  const gqlModifiedQuery = print(query); // If using a string, print just returns the string
+
+  const payload = {
+    query: gqlModifiedQuery,
+    variables: {
+      feature: suitsByFeature
     }
-  );
-  if (response && response.data) {
-    if (response.data.errors) {
-      // GraphQL error occurred
-      return {
-        data: response.data.data || null,
-        errors: response.data.errors,
-      };
-    }
-    // Success
-    return { data: response.data, errors: null }; // Return the data directly if it's valid
-  } else {
-    console.error("Empty or invalid response:", response);
-    return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
-  }
-  } catch (error) {
-    console.error("Error fetching suits:", error);
-    return {
-    data: null,
-    errors: [
-      {
-        message: error?.message || "Unknown error",
-        ...(error?.response?.data?.errors?.[0] || {}),
-      },
-    ],
   };
+
+  const config = {
+    method: 'post',
+    url: APP_URL,
+    headers: { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+    },
+    data: payload
+  };
+
+  try {
+    const response = await axios.request(config);
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+    return {
+      data: null,
+      errors: [
+        {
+          message: error?.message || "Unknown error",
+          ...(error?.response?.data?.errors?.[0] || {}),
+        },
+      ],
+    };
   }
 }
 export async function getAstronauts(token: string) {

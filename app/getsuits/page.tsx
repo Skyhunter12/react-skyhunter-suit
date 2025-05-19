@@ -42,7 +42,7 @@ export default function GetSuits() {
                 setError("No data found for the given filters.");
                 return;
               }
-              if(!fetchdata?.data?.SuitsByFeature.suits) {
+              if(fetchdata?.data?.SuitsByFeature?.suits) {
               setSuitsData(fetchdata?.data?.SuitsByFeature?.suits)
               }else{
                 setError("No suits data found.");
