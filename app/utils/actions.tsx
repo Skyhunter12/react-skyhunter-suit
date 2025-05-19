@@ -45,7 +45,7 @@ export async function getSuits(suitsByFeature: any, token: string) {
       feature: suitsByFeature
     }
   };
-
+  console.log(APP_URL)
   const config = {
     method: 'post',
     url: APP_URL,

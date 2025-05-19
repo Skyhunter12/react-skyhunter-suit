@@ -22,5 +22,8 @@ exports.next_app = onRequest((req, res) => {
       console.error("Error handling request:", error);
       res.json({ success: false, error });
     }
+  }).catch((e)=>{
+    console.error("Error preparing Next.js server:", e);
+    res.json({ success: false, error: e });
   });
 });
