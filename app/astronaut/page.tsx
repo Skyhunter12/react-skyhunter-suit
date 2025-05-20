@@ -16,7 +16,6 @@ export default function Astronaut() {
     let id = searchParams.get('id')
     
   useEffect(() => {
-    console.log("hi astronaut", id)
     if (!id) {
       setError("No astronaut ID provided.");
       setLoading(false);
@@ -47,13 +46,12 @@ export default function Astronaut() {
   const fetchAstronaut = async (token:string) => {
     try {
       let fetchdata = await getAstronaut(id, token||"")
-      console.log(fetchdata.data.PersonById)
       if (!fetchdata?.data?.PersonById) {
         console.error("No data found for the given filters");
         setError("No data found for the given filters.");
         return;
       }
-      if(fetchdata.data.PersonById){
+      if(fetchdata?.data?.PersonById){
         setAstronautData(fetchdata?.data?.PersonById)
       }
       else{

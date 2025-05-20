@@ -36,7 +36,6 @@ export default function SignUp({
     en: en,
     es: es
 };
-  console.log(process.env.NEXT_PUBLIC_APP_URL)
   const APP_URL = process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL ||''
   const [first_name, setFirstName] = useState('');
   const [client, setClient] = useState(false);
@@ -72,7 +71,6 @@ export default function SignUp({
     if (country) {
       try {
         const valueWithoutCountryCode = val.slice(1 + getCountryCallingCode(country).length);
-        console.log('Parsed Phone Number:', valueWithoutCountryCode);
         setPhone(valueWithoutCountryCode); // Set the parsed phone number
       } catch (error) {
         console.error('Error parsing phone number:', error);
@@ -94,7 +92,6 @@ export default function SignUp({
       alert('Passwords do not match!');
       return;
     }
-    console.log("email",email)
      let registerUser= {
       confirm_password,
       email,

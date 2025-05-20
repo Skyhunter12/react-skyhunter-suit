@@ -79,7 +79,6 @@ export default function Astronauts() {
   // async function checkIfDataChanged() {
   //   const token = localStorage.getItem("token");
   //   let changedData =await getSuits(suitsByFeature, token||"")
-  //   console.log("suitsData",suitsData)
   //   setSuitsData(changedData)
   // }
   return (client &&

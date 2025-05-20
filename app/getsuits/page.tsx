@@ -36,7 +36,7 @@ export default function GetSuits() {
           const fetchSuits = async () => {
             try {
               let fetchdata = await getSuits(suitsByFeature, token||"")
-              console.log("fetchdata",fetchdata.data.SuitsByFeature.suits)
+              
               if (!fetchdata?.data?.SuitsByFeature) {
                 console.error("No data found for the given filters");
                 setError("No data found for the given filters.");
@@ -168,7 +168,7 @@ export default function GetSuits() {
                     <td className="border border-gray-300 px-2 py-2">{suit?.manufactured}</td>
                     <td className="border border-gray-300 px-2 py-2">{suit?.last_maintainance}</td>
                     <td className="border border-gray-300 px-2 py-2">
-                      {suit.lifetime.years} years, {suit.lifetime.months} months, {suit.lifetime.days} days
+                      {suit?.lifetime?.years} years, {suit?.lifetime?.months} months, {suit?.lifetime?.days} days
                     </td>
                   </tr>
                   

@@ -19,7 +19,6 @@ export function getRequest(URL:string) {
   }
   
   export async function postRequest(URL:string, payload:any) {
-    console.log("axios 22",URL, axiosClient)
     return await axiosClient.post(URL, payload).then(response => response);
   }
   

@@ -42,10 +42,9 @@ export async function getSuits(suitsByFeature: any, token: string) {
   const payload = {
     query: gqlModifiedQuery,
     variables: {
-      feature: suitsByFeature
+      feature: await suitsByFeature
     }
   };
-  console.log(APP_URL)
   const config = {
     method: 'post',
     url: APP_URL,
@@ -55,7 +54,7 @@ export async function getSuits(suitsByFeature: any, token: string) {
       Authorization: `Bearer ${token}`,
       'Cache-Control': 'no-cache, no-store, must-revalidate',
     },
-    data: payload
+    data: JSON.stringify(payload)
   };
 
   try {
@@ -174,7 +173,7 @@ export async function getSuit(id: any, token: string) {
     APP_URL,
     JSON.stringify({
       query,
-      variables: { id: id },
+      variables: { id: await id },
     }),
     {
       headers: {
@@ -247,7 +246,7 @@ export async function getAstronaut(id: any, token: string) {
     APP_URL,
     JSON.stringify({
       query,
-      variables: { personById: id },
+      variables: { personById: await id },
     }),
     {
       headers: {
@@ -329,7 +328,7 @@ export async function getAttachments(
       APP_URL,
       JSON.stringify({
         query,
-        variables: { feature: attachementsPayload, page: page, limit: limit },
+        variables: { feature: await attachementsPayload, page:await page, limit:await limit },
       }),
       {
         headers: {
@@ -403,7 +402,7 @@ try {
     APP_URL,
     JSON.stringify({
       query,
-      variables: { personById: id },
+      variables: { personById: await id },
     }),
     {
       headers: {
@@ -465,7 +464,7 @@ export async function getCurrentAstronautResults(
     APP_URL,
     JSON.stringify({
       query,
-      variables: { feature: await feature, page: page, limit: limit },
+      variables: { feature: await feature, page:await page, limit: await limit },
     }),
     {
       headers: {

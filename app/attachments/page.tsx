@@ -45,7 +45,6 @@ export default function Attachments() {
   ];
 
   useEffect(() => {
-    console.log(isLoggedIn)
     if (!isLoggedIn) {
       router.push("/signin");
     } else {
@@ -65,7 +64,6 @@ export default function Attachments() {
     try {
       setLoading(true)
       let fetchdata = await getAttachments(attachmentsFeature, token||"", page, limit)
-      console.log("fetchdata",fetchdata.data)
       if (fetchdata?.data?.Attachements?.attachment) {
         setAttachmentsData(fetchdata?.data?.Attachements?.attachment)
       } else {

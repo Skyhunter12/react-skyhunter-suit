@@ -32,13 +32,13 @@ export default function GetSuit() {
           const fetchSuit = async () => {
             try {
               let fetchdata = await getSuit(id, token||"")
-              console.log(fetchdata?.data?.SuitsById)
+              
               if (!fetchdata?.data?.SuitsById) {
                 console.error("No data found for the given filters");
                 setError("No data found for the given filters.");
                 return;
               }
-              if(fetchdata.data.SuitsById){
+              if(fetchdata?.data?.SuitsById){
                 setSuitData(fetchdata?.data?.SuitsById)
 
               }else{
@@ -118,7 +118,7 @@ export default function GetSuit() {
                               <hr className="mt-0 mb-4" />
                               {
                                 suitData?.functional_modifications?.length>0 ?(
-                                    suitData.functional_modifications.map((func_modification: any, index: number) => (
+                                    suitData.functional_modifications?.map((func_modification: any, index: number) => (
                                     <MDBRow className="pt-1" key={index}>
                                     <MDBCol size="12" className="mb-3">
                                     <MDBTypography tag="h6" className="text-primary">
