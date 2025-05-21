@@ -37,7 +37,7 @@ export default function GetAttachment() {
   
   const fetchAttachment = async () => {
     try {
-      let fetchdata = await getAttachment(id, token||"")
+      let fetchdata = await getAttachment(id, token)
       
       if (!fetchdata?.data?.SuitsById) {
         console.error("No data found for the given filters");

@@ -43,10 +43,10 @@ export default function Astronaut() {
       }
   }, [isLoggedIn, id, router]);
 
-  const fetchAstronaut = async (token:string) => {
+  const fetchAstronaut = async (token:any) => {
     try {
       
-      let fetchdata = await getAstronaut(id, token||"")
+      let fetchdata = await getAstronaut(id, token)
       
       if (!fetchdata?.data?.PersonById) {
         console.error("No data found for the given filters");

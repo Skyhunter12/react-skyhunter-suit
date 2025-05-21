@@ -6,7 +6,7 @@ import { normalizeToJsonObject } from "./common";
 const APP_URL =
   process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || "";
 
-export async function getSuits(suitsByFeature: any, token: string) {
+export async function getSuits(suitsByFeature: any, token: any) {
   const query = gql`
     query SuitsByFeature($feature: fetchfeature) {
       SuitsByFeature(feature: $feature) {
@@ -75,7 +75,7 @@ export async function getSuits(suitsByFeature: any, token: string) {
   throw error;    
   }
 }
-export async function getAstronauts(token: string) {
+export async function getAstronauts(token: any) {
   const query = `query Persons {
   Persons {
     id
@@ -146,7 +146,7 @@ return {
   };  }
 }
 
-export async function getSuit(id: any, token: string) {
+export async function getSuit(id: any, token: any) {
   const query = `
     query SuitsById($id: ID!) {
   SuitsById(id: $id) {
@@ -204,7 +204,7 @@ return {
     ],
   };  }
 }
-export async function getAstronaut(id: any, token: string) {
+export async function getAstronaut(id: any, token: any) {
   const query = `query PersonById($personById: ID!) {
   PersonById(id: $personById) {
     id
@@ -283,7 +283,7 @@ export async function getAstronaut(id: any, token: string) {
 
 export async function getAttachments(
   attachementsPayload: any,
-  token: string,
+  token: any,
   page: any,
   limit: any
 ) {
@@ -366,7 +366,7 @@ export async function getAttachments(
   }
 }
 
-export async function getAttachment(id: any, token: string) {
+export async function getAttachment(id: any, token: any) {
   const query = `query PersonById($personById: ID!) {
   PersonById(id: $personById) {
     id
@@ -443,7 +443,7 @@ try {
 
 export async function getCurrentAstronautResults(
   feature: any,
-  token: string,
+  token: any,
   page: any,
   limit: any
 ) {

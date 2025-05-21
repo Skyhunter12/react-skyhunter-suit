@@ -60,14 +60,12 @@ export default function Attachments() {
     setClent(true)
   },  [isLoggedIn, attachmentsFeature, page, limit, router]);
   
-  const fetchAttachments = async (token:string) => {
+  const fetchAttachments = async (token:any) => {
     try {
       setLoading(true)
-      let fetchdata = await getAttachments(attachmentsFeature, token||"", page, limit)
+      let fetchdata = await getAttachments(attachmentsFeature, token, page, limit)
       if (fetchdata?.data?.Attachements?.attachment) {
         setAttachmentsData(fetchdata?.data?.Attachements?.attachment)
-      } else {
-        setAttachmentsData([]);
       }
     } catch (err) {
       console.error("Error fetching attachments data:", err);

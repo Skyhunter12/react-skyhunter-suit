@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoggedIn(!!token); // Set `isLoggedIn` to true if a token exists
   }, []);
 
-  const login = (token: string) => {
+  const login = (token: any) => {
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
   };
