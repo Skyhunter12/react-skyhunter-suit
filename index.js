@@ -9,7 +9,7 @@ initializeApp();
 const nextjsServer = next({
   dev: false,
   conf: {
-    distDir: 'next',
+    distDir: '.next',
   },
 });
 const nextjsHandle = nextjsServer.getRequestHandler();
