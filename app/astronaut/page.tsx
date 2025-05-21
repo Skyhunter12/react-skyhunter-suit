@@ -35,7 +35,7 @@ export default function Astronaut() {
           // Save token to localStorage and update global state
           
       
-          fetchAstronaut(token);
+          fetchAstronaut(JSON.stringify(token));
         } catch (error) {
           console.error("Error parsing user data:", error);
         }
@@ -45,7 +45,9 @@ export default function Astronaut() {
 
   const fetchAstronaut = async (token:string) => {
     try {
+      
       let fetchdata = await getAstronaut(id, token||"")
+      
       if (!fetchdata?.data?.PersonById) {
         console.error("No data found for the given filters");
         setError("No data found for the given filters.");

@@ -2,6 +2,7 @@
 import axios from "axios";
 import gql from "graphql-tag";
 import { print } from "graphql";
+import { normalizeToJsonObject } from "./common";
 const APP_URL =
   process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || "";
 
@@ -38,11 +39,11 @@ export async function getSuits(suitsByFeature: any, token: string) {
     }
   `;
   const gqlModifiedQuery = print(query); // If using a string, print just returns the string
-
+  const normalisedFeature = await normalizeToJsonObject(suitsByFeature);
   const payload = {
     query: gqlModifiedQuery,
     variables: {
-      feature: await suitsByFeature
+      feature: normalisedFeature,
     }
   };
   const config = {
@@ -169,11 +170,12 @@ export async function getSuit(id: any, token: string) {
   }
 }`;
   try {
+  const {value:normalisedId} = await normalizeToJsonObject(id);
   const response = await axios.post(
     APP_URL,
     JSON.stringify({
       query,
-      variables: { id: await id },
+      variables: { id: normalisedId },
     }),
     {
       headers: {
@@ -242,11 +244,13 @@ export async function getAstronaut(id: any, token: string) {
 }`;
 
   try {
+  const {value:personById} = await normalizeToJsonObject(id);
+  
   const response = await axios.post(
     APP_URL,
     JSON.stringify({
       query,
-      variables: { personById: await id },
+      variables: { personById },
     }),
     {
       headers: {
@@ -323,12 +327,16 @@ export async function getAttachments(
     }
   }
 `;
+
+  const normalisedPayload = await normalizeToJsonObject(attachementsPayload);
+  const normalisedPage = await normalizeToJsonObject(page);
+  const normalisedLimit = await normalizeToJsonObject(limit);
   try {
     const response = await axios.post(
       APP_URL,
       JSON.stringify({
         query,
-        variables: { feature: await attachementsPayload, page:await page, limit:await limit },
+        variables: { feature: normalisedPayload , page:normalisedPage.value, limit:normalisedLimit.value },
       }),
       {
         headers: {
@@ -398,11 +406,12 @@ export async function getAttachment(id: any, token: string) {
 }`;
   
 try {
+  const {value:personById} = await normalizeToJsonObject(id);
   const response = await axios.post(
     APP_URL,
     JSON.stringify({
       query,
-      variables: { personById: await id },
+      variables: { personById },
     }),
     {
       headers: {
@@ -460,11 +469,15 @@ export async function getCurrentAstronautResults(
 }`;
 
   try {
+  const normalisedFeature = await normalizeToJsonObject(feature);
+  const normalisedPage = await normalizeToJsonObject(page);
+  const normalisedLimit = await normalizeToJsonObject(limit);
+  
   const response = await axios.post(
     APP_URL,
     JSON.stringify({
       query,
-      variables: { feature: await feature, page:await page, limit: await limit },
+      variables: { feature: normalisedFeature, page:normalisedPage, limit: normalisedLimit },
     }),
     {
       headers: {

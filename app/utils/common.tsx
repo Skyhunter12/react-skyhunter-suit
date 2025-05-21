@@ -14,3 +14,25 @@ export async function checkRole(userRole:string, req_role:string){
         return true;
 }
 
+export async function normalizeToJsonObject(input: any): Promise<Record<string, any>> {
+  // If input is a string, try to parse it
+  if (typeof input === "string") {
+    
+    try {
+      input = await JSON.parse(input);
+    } catch {
+      // If not valid JSON, wrap as object
+      return { value: input };
+    }
+  }
+  // If input is an array, wrap in an object
+  if (Array.isArray(input)) {
+    return { value: input };
+  }
+  // If input is already an object, return as is
+  if (typeof input === "object" && input !== null) {
+    return input;
+  }
+  // For other types, wrap as object
+  return { value: input };
+}
