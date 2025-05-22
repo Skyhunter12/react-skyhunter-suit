@@ -52,15 +52,15 @@ export async function getSuits(suitsByFeature: any, token: any) {
     headers: { 
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Cache-Control': 'no-cache, no-store, must-revalidate',
     },
-    data: JSON.stringify(payload)
+    data: payload
   };
 
   try {
     const response = await axios.request(config);
-    return response.data;
+    return response.data ? response.data : { data: null, errors: [{ message: "Empty or invalid response from server" }] };
   } catch (error: any) {
     console.log(error);
     if (error.response) {
@@ -115,15 +115,15 @@ export async function getAstronauts(token: any) {
   try {
   const response = await axios.post(
     APP_URL,
-    JSON.stringify({
+    {
       query,
       cache: "no-store",
-    }),
+    },
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         "Content-Type": "application/json",
-        Authorization:`Bearer ${token}` // Include the token in the Authorization header
+        Authorization:token // Include the token in the Authorization header
       },
     }
   );
@@ -173,15 +173,15 @@ export async function getSuit(id: any, token: any) {
   const {value:normalisedId} = await normalizeToJsonObject(id);
   const response = await axios.post(
     APP_URL,
-    JSON.stringify({
+    {
       query,
       variables: { id: normalisedId },
-    }),
+    },
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         "Content-Type": "application/json",
-        Authorization:`Bearer ${token}` // Include the token in the Authorization header
+        Authorization:token // Include the token in the Authorization header
       },
     }
   );
@@ -248,15 +248,15 @@ export async function getAstronaut(id: any, token: any) {
   
   const response = await axios.post(
     APP_URL,
-    JSON.stringify({
+    {
       query,
       variables: { personById },
-    }),
+    },
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         "Content-Type": "application/json",
-        Authorization:`Bearer ${token}` // Include the token in the Authorization header
+        Authorization:token // Include the token in the Authorization header
       },
     }
   );
@@ -334,15 +334,15 @@ export async function getAttachments(
   try {
     const response = await axios.post(
       APP_URL,
-      JSON.stringify({
+      {
         query,
         variables: { feature: normalisedPayload , page:normalisedPage.value, limit:normalisedLimit.value },
-      }),
+      },
       {
         headers: {
           "Cache-Control": "no-cache, no-store, must-revalidate",
           "Content-Type": "application/json",
-          Authorization:`Bearer ${token}` // Include the token in the Authorization header
+          Authorization:token // Include the token in the Authorization header
         },
       }
     );
@@ -409,14 +409,14 @@ try {
   const {value:personById} = await normalizeToJsonObject(id);
   const response = await axios.post(
     APP_URL,
-    JSON.stringify({
+    {
       query,
       variables: { personById },
-    }),
+    },
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization:`Bearer ${token}` // Include the token in the Authorization header
+        Authorization:token // Include the token in the Authorization header
       },
     }
   );
@@ -475,15 +475,15 @@ export async function getCurrentAstronautResults(
   
   const response = await axios.post(
     APP_URL,
-    JSON.stringify({
+    {
       query,
       variables: { feature: normalisedFeature, page:normalisedPage, limit: normalisedLimit },
-    }),
+    },
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         "Content-Type": "application/json",
-        Authorization:`Bearer ${token}` // Include the token in the Authorization header
+        Authorization:token // Include the token in the Authorization header
       },
     }
   );

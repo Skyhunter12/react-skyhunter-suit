@@ -62,7 +62,7 @@ export default function SignIn() {
              const userData = `first_name=${data?.data?.login?.first_name}&last_name=${data?.data?.login?.last_name}&email=${data?.data?.login?.email}&role=${data?.data?.login?.role}&token=${data?.data?.login?.tokens[0].token}`;
               localStorage.setItem("userData", userData);
              const token = await data?.data?.login?.tokens[0].token;
-             localStorage.setItem("token", token);
+             localStorage.setItem("token", `Bearer ${token}`);
             
              await login(token)
             router.push('/profile')
