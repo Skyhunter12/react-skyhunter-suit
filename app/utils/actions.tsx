@@ -117,7 +117,6 @@ export async function getAstronauts(token: any) {
     APP_URL,
     {
       query,
-      cache: "no-store",
     },
     {
       headers: {
@@ -130,7 +129,7 @@ export async function getAstronauts(token: any) {
   if (response && response.data) {
     return await response?.data; // Return the data directly if it's valid
   } else {
-    console.error("Empty or invalid response:", response);
+    console.error("Empty or invalid response:");
     return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
   }
   } catch (error) {
@@ -346,10 +345,9 @@ export async function getAttachments(
         },
       }
     );
-    if (response && response.data) {
-      return await response.data; // Return the data directly if it's valid
+    if (response && response?.data) {
+      return await response?.data; // Return the data directly if it's valid
     } else {
-      console.error("Empty or invalid response:", response);
     return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
     }
   } catch (err) {
@@ -421,10 +419,9 @@ try {
     }
   );
 
-  if (response && response.data) {
-    return await response.data; // Return the data directly if it's valid
+  if (response && response?.data) {
+    return await response?.data; // Return the data directly if it's valid
   } else {
-    console.error("Empty or invalid response:", response);
     return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
   }
   } catch (error) {
@@ -487,8 +484,8 @@ export async function getCurrentAstronautResults(
       },
     }
   );
-  if (response && response.data) {
-    return await response.data; // Return the data directly if it's valid
+  if (response && response?.data) {
+    return await response?.data; // Return the data directly if it's valid
   } else {
     console.error("Empty or invalid response:", response);
     return { data: null, errors: [{ message: "Empty or invalid response from server" }] };

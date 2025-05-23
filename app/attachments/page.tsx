@@ -65,6 +65,7 @@ export default function Attachments() {
       setLoading(true)
       let fetchdata = await getAttachments(attachmentsFeature, token, page, limit)
       if (fetchdata?.data?.Attachements?.attachment) {
+        
         setAttachmentsData(fetchdata?.data?.Attachements?.attachment)
       }
     } catch (err) {

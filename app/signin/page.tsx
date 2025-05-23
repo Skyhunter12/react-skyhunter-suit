@@ -71,8 +71,7 @@ export default function SignIn() {
           .catch((error) => {
             console.log(error);
             throw new Error(error)
-          });
-          
+          });     
   }
  
   return (
