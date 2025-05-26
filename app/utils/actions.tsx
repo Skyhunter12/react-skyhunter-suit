@@ -3,6 +3,7 @@ import axios from "axios";
 import gql from "graphql-tag";
 import { print } from "graphql";
 import { normalizeToJsonObject } from "./common";
+import qs from "qs";
 
 export async function getSuits(APP_URL:string, suitsByFeature: any, token: any) {
   const query = gql`
@@ -38,12 +39,12 @@ export async function getSuits(APP_URL:string, suitsByFeature: any, token: any) 
   `;
   const gqlModifiedQuery = print(query); // If using a string, print just returns the string
   const normalisedFeature = await normalizeToJsonObject(suitsByFeature);
-  const payload = {
+  const payload = qs.stringify({
     query: gqlModifiedQuery,
     variables: {
       feature: normalisedFeature,
     }
-  };
+  });
   const config = {
     method: 'post',
     url: APP_URL,
@@ -113,9 +114,9 @@ export async function getAstronauts(APP_URL:string, token: any) {
   try {
   const response = await axios.post(
     APP_URL,
-    {
+    qs.stringify  ({
       query,
-    },
+    }),
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -168,12 +169,13 @@ export async function getSuit(APP_URL:string, id: any, token: any) {
 }`;
   try {
   const {value:normalisedId} = await normalizeToJsonObject(id);
-  const response = await axios.post(
-    APP_URL,
-    {
+  const gqlModifiedQuery = qs.stringify({
       query,
       variables: { id: normalisedId },
-    },
+    }); // If using a string, print just returns the string
+  const response = await axios.post(
+    APP_URL,
+    gqlModifiedQuery,
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -242,13 +244,13 @@ export async function getAstronaut(APP_URL:string, id: any, token: any) {
 
   try {
   const {value:personById} = await normalizeToJsonObject(id);
-  
-  const response = await axios.post(
-    APP_URL,
-    {
+  const gqlModifiedQuery = qs.stringify({
       query,
       variables: { personById },
-    },
+    }); // If using a string, print just returns the string
+  const response = await axios.post(
+    APP_URL,
+    gqlModifiedQuery,
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -332,14 +334,14 @@ export async function getAttachments(APP_URL:string,
   try {
    const gqlModifiedQuery = await print(query)
           
-          const payload = {
+          const payload = qs.stringify({
             query: await gqlModifiedQuery,
             variables: {
               feature: normalisedPayload,
               page: normalisedPage.value,
               limit: normalisedLimit.value
             }
-          }
+          })
           
           let config = {
             method: 'post',
@@ -418,12 +420,13 @@ export async function getAttachment(APP_URL:string, id: any, token: any) {
   
 try {
   const {value:personById} = await normalizeToJsonObject(id);
-  const response = await axios.post(
-    APP_URL,
-    {
+  const gqlModifiedQuery = qs.stringify({
       query,
       variables: { personById },
-    },
+    });
+  const response = await axios.post(
+    APP_URL,
+    gqlModifiedQuery,
     {
       headers: {
         "Content-Type": "application/json",
@@ -482,13 +485,19 @@ export async function getCurrentAstronautResults(APP_URL:string,
   const normalisedFeature = await normalizeToJsonObject(feature);
   const normalisedPage = await normalizeToJsonObject(page);
   const normalisedLimit = await normalizeToJsonObject(limit);
-  
+  const
+  gqlModifiedQuery = qs.stringify({
+      query,
+      variables: {
+        feature: normalisedFeature,
+        page: normalisedPage.value,
+        limit: normalisedLimit.value
+      }
+    });
+
   const response = await axios.post(
     APP_URL,
-    {
-      query,
-      variables: { feature: normalisedFeature, page:normalisedPage, limit: normalisedLimit },
-    },
+    gqlModifiedQuery,
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
