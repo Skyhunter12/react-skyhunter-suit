@@ -31,7 +31,7 @@ export default function Astronauts() {
           }
           const fetchAstronauts = async () => {
             try {
-              let fetchdata = await getAstronauts(APP_URL, token)
+              let fetchdata = await getAstronauts(token)
               if (!fetchdata?.data?.Persons) {
                 console.error("No data found for the given filters");
                 setError("No data found for the given filters.");

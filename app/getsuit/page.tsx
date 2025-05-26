@@ -33,7 +33,7 @@ export default function GetSuit() {
           let token =localStorage.getItem("token");
           const fetchSuit = async () => {
             try {
-              let fetchdata = await getSuit(APP_URL,id, token)
+              let fetchdata = await getSuit(id, token)
               
               if (!fetchdata?.data?.SuitsById) {
                 console.error("No data found for the given filters");

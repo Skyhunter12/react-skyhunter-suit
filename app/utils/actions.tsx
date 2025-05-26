@@ -3,9 +3,10 @@ import axios from "axios";
 import gql from "graphql-tag";
 import { print } from "graphql";
 import { normalizeToJsonObject } from "./common";
-import qs from "qs";
+const APP_URL =
+  process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || "";
 
-export async function getSuits(APP_URL:string, suitsByFeature: any, token: any) {
+export async function getSuits(suitsByFeature: any, token: any) {
   const query = gql`
     query SuitsByFeature($feature: fetchfeature) {
       SuitsByFeature(feature: $feature) {
@@ -39,26 +40,25 @@ export async function getSuits(APP_URL:string, suitsByFeature: any, token: any) 
   `;
   const gqlModifiedQuery = print(query); // If using a string, print just returns the string
   const normalisedFeature = await normalizeToJsonObject(suitsByFeature);
-  const payload = qs.stringify({
-    query: gqlModifiedQuery,
-    variables: {
-      feature: normalisedFeature,
-    }
-  });
-  const config = {
-    method: 'post',
-    url: APP_URL,
-    headers: { 
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      Authorization: token,
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-    },
-    data: payload
-  };
+
 
   try {
-    const response = await axios.request(config);
+      const response = await axios.post(
+        APP_URL,
+        {
+          query: gqlModifiedQuery,
+          variables: {
+            feature: normalisedFeature,
+          }
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+            // ...other headers
+          }
+        }
+    );
     return response.data ? response.data : { data: null, errors: [{ message: "Empty or invalid response from server" }] };
   } catch (error: any) {
     console.log(error);
@@ -74,7 +74,7 @@ export async function getSuits(APP_URL:string, suitsByFeature: any, token: any) 
   throw error;    
   }
 }
-export async function getAstronauts(APP_URL:string, token: any) {
+export async function getAstronauts(token: any) {
   const query = `query Persons {
   Persons {
     id
@@ -114,14 +114,14 @@ export async function getAstronauts(APP_URL:string, token: any) {
   try {
   const response = await axios.post(
     APP_URL,
-    qs.stringify  ({
+    {
       query,
-    }),
+    },
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         "Content-Type": "application/json",
-        Authorization:token // Include the token in the Authorization header
+        Authorization:token,
       },
     }
   );
@@ -144,7 +144,7 @@ return {
   };  }
 }
 
-export async function getSuit(APP_URL:string, id: any, token: any) {
+export async function getSuit(id: any, token: any) {
   const query = `
     query SuitsById($id: ID!) {
   SuitsById(id: $id) {
@@ -169,13 +169,12 @@ export async function getSuit(APP_URL:string, id: any, token: any) {
 }`;
   try {
   const {value:normalisedId} = await normalizeToJsonObject(id);
-  const gqlModifiedQuery = qs.stringify({
-      query,
-      variables: { id: normalisedId },
-    }); // If using a string, print just returns the string
   const response = await axios.post(
     APP_URL,
-    gqlModifiedQuery,
+    {
+      query,
+      variables: { id: normalisedId },
+    },
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -203,7 +202,7 @@ return {
     ],
   };  }
 }
-export async function getAstronaut(APP_URL:string, id: any, token: any) {
+export async function getAstronaut(id: any, token: any) {
   const query = `query PersonById($personById: ID!) {
   PersonById(id: $personById) {
     id
@@ -244,13 +243,13 @@ export async function getAstronaut(APP_URL:string, id: any, token: any) {
 
   try {
   const {value:personById} = await normalizeToJsonObject(id);
-  const gqlModifiedQuery = qs.stringify({
-      query,
-      variables: { personById },
-    }); // If using a string, print just returns the string
+  
   const response = await axios.post(
     APP_URL,
-    gqlModifiedQuery,
+    {
+      query,
+      variables: { personById },
+    },
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -280,13 +279,13 @@ export async function getAstronaut(APP_URL:string, id: any, token: any) {
   }
 }
 
-export async function getAttachments(APP_URL:string,
+export async function getAttachments(
   attachementsPayload: any,
   token: any,
   page: any,
   limit: any
 ) {
-  const query =await gql`query Attachements($feature: attachment_by_feature, $page: Int, $limit: Int) {
+  const query = `query Attachements($feature: attachment_by_feature, $page: Int, $limit: Int) {
     Attachements(feature: $feature, page: $page, limit: $limit) {
       page
       limit
@@ -330,41 +329,26 @@ export async function getAttachments(APP_URL:string,
   const normalisedPayload = await normalizeToJsonObject(attachementsPayload);
   const normalisedPage = await normalizeToJsonObject(page);
   const normalisedLimit = await normalizeToJsonObject(limit);
-  console.log("normalisedPayload", normalisedPayload, normalisedPage, normalisedLimit);
   try {
-   const gqlModifiedQuery = await print(query)
-          
-          const payload = qs.stringify({
-            query: await gqlModifiedQuery,
-            variables: {
-              feature: normalisedPayload,
-              page: normalisedPage.value,
-              limit: normalisedLimit.value
-            }
-          })
-          
-          let config = {
-            method: 'post',
-            url: APP_URL,
-            headers: { 
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-              Authorization: token,
-            },
-            data : payload
-          };
- 
-          return await axios.request(config)
-          .then(async(response) => {
-            console.log("response", response);
-            
-            let data = await response.data;
-            return data;
-          })
-          .catch((error) => {
-            console.log(error);
-            throw new Error(error)
-          });   
+    const response = await axios.post(
+      APP_URL,
+      {
+        query,
+        variables: { feature: normalisedPayload , page:normalisedPage.value, limit:normalisedLimit.value },
+      },
+      {
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Content-Type": "application/json",
+          Authorization:token // Include the token in the Authorization header
+        },
+      }
+    );
+    if (response && response?.data) {
+      return await response?.data; // Return the data directly if it's valid
+    } else {
+    return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
+    }
   } catch (err) {
     console.log(err);
     return {
@@ -379,54 +363,42 @@ export async function getAttachments(APP_URL:string,
   }
 }
 
-export async function getAttachment(APP_URL:string, id: any, token: any) {
-  const query = `query PersonById($personById: ID!) {
-  PersonById(id: $personById) {
+export async function getAttachment(id: any, token: any) {
+  const query = `query Attachements($attachementById: ID!) {
+  AttachementById(id: $attachementById) {
     id
-    firstName
-    lastName
-    specialisation
-    photos {
-      id
-      url
+    module
+    serial_number
+    manufactured
+    is_damaged
+    damage {
+      description
+      is_repairable
+      is_repaired
+      photo
+      severity
       type
     }
-    phone
-    alternate_phone
-    email
-    age
-    height
-    weight
-    experience
-    training
-    medical_history {
-      id
-      disease
-      medication
-      medication_date
-      medication_duration
-      medication_dosage
-      medication_frequency
-      medication_reason
-      medication_side_effects
-      medication_side_effects_date
-      medication_side_effects_duration
-      medication_side_effects_dosage
-      medication_side_effects_frequency
-      medication_side_effects_reason
+    type
+    is_active
+    is_default
+    body_part_belongs
+    description
+    equipped_details {
+      equipped_at
+      equipped_by
     }
   }
 }`;
   
 try {
-  const {value:personById} = await normalizeToJsonObject(id);
-  const gqlModifiedQuery = qs.stringify({
-      query,
-      variables: { personById },
-    });
+  const {value:attachementById} = await normalizeToJsonObject(id);
   const response = await axios.post(
     APP_URL,
-    gqlModifiedQuery,
+    {
+      query,
+      variables: { attachementById },
+    },
     {
       headers: {
         "Content-Type": "application/json",
@@ -454,7 +426,7 @@ try {
   }
 }
 
-export async function getCurrentAstronautResults(APP_URL:string,
+export async function getCurrentAstronautResults(
   feature: any,
   token: any,
   page: any,
@@ -485,19 +457,13 @@ export async function getCurrentAstronautResults(APP_URL:string,
   const normalisedFeature = await normalizeToJsonObject(feature);
   const normalisedPage = await normalizeToJsonObject(page);
   const normalisedLimit = await normalizeToJsonObject(limit);
-  const
-  gqlModifiedQuery = qs.stringify({
-      query,
-      variables: {
-        feature: normalisedFeature,
-        page: normalisedPage.value,
-        limit: normalisedLimit.value
-      }
-    });
-
+  
   const response = await axios.post(
     APP_URL,
-    gqlModifiedQuery,
+    {
+      query,
+      variables: { feature: normalisedFeature, page:normalisedPage, limit: normalisedLimit },
+    },
     {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",

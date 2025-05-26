@@ -10,24 +10,23 @@ import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCar
 
 export default function GetAttachment() {
   const [attachmentData, setAttachmentData] = useState<any>(null); // State to store suits data
-  const [modificationData, setModifcationsData] = useState<any>(null); // State to store suits data
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { isLoggedIn } = useAuth(); // Access the global auth state
   const router = useRouter()
-  const APP_URL = process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || '';
   let searchParams = useSearchParams()
   let id = searchParams.get('id')
-  let token =localStorage.getItem("token");
 
   useEffect(() => {
+      let token =localStorage.getItem("token");
+
     if (!isLoggedIn) {
       router.push("/signin");
     } else {
       // Fetch user data
         try {
           // Save token to localStorage and update global state
-          fetchAttachment();
+          fetchAttachment(token);
         } catch (error) {
           console.error("Error parsing user data:", error);
         }
@@ -36,22 +35,21 @@ export default function GetAttachment() {
     
   }, [isLoggedIn, ]);
   
-  const fetchAttachment = async () => {
+  const fetchAttachment = async (token:string) => {
     try {
-      let fetchdata = await getAttachment(APP_URL, id, token)
+      let fetchdata = await getAttachment(id, token)
       
-      if (!fetchdata?.data?.SuitsById) {
+      if (!fetchdata?.data?.AttachementById) {
         console.error("No data found for the given filters");
         setError("No data found for the given filters.");
         return;
       }
-      if(fetchdata?.data?.SuitsById){
-        setAttachmentData(fetchdata?.data?.SuitsById)
+      if(fetchdata?.data?.AttachementById){
+        setAttachmentData(fetchdata?.data?.AttachementById)
       }else{
         setError("No suits data found.");
         setAttachmentData([]);
       }
-      setModifcationsData(fetchdata?.data?.SuitsById.functional_modifications.slice(-1))
     } catch (err) {
       console.error("Error fetching suits data:", err);
       setError("Failed to fetch suits data.");
@@ -101,10 +99,6 @@ export default function GetAttachment() {
                                 <MDBCol size="6" className="mb-3">
                                   <MDBTypography tag="h6">Manufactured in</MDBTypography>
                                   <MDBCardText className="text-muted">{attachmentData?.manufactured}</MDBCardText>
-                                </MDBCol>
-                                <MDBCol size="6" className="mb-3">
-                                  <MDBTypography tag="h6">Damage condition</MDBTypography>
-                                  <MDBCardText className="text-muted">{attachmentData?.last_maintainance}</MDBCardText>
                                 </MDBCol>
                               </MDBRow>
                               <MDBTypography tag="h6">Damage condition</MDBTypography>

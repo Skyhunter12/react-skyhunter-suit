@@ -65,7 +65,7 @@ export default function Attachments() {
       setLoading(true)
       console.log("Fetching attachments with feature:", attachmentsFeature, page, limit);
       
-      let fetchdata = await getAttachments(APP_URL,attachmentsFeature, token, page, limit)
+      let fetchdata = await getAttachments(attachmentsFeature, token, page, limit)
       console.log("Fetched attachments data:", fetchdata);
       if (!fetchdata || !fetchdata.data || !fetchdata.data.Attachements) {
         throw new Error("Invalid response structure from getAttachments");
