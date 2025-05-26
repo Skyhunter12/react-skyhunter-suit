@@ -286,7 +286,7 @@ export async function getAttachments(
   page: any,
   limit: any
 ) {
-  const query = `query Attachements($feature: attachment_by_feature, $page: Int, $limit: Int) {
+  const query = gql`query Attachements($feature: attachment_by_feature, $page: Int, $limit: Int) {
     Attachements(feature: $feature, page: $page, limit: $limit) {
       page
       limit
@@ -332,35 +332,39 @@ export async function getAttachments(
   const normalisedLimit = await normalizeToJsonObject(limit);
   console.log("normalisedPayload", normalisedPayload, normalisedPage, normalisedLimit);
   try {
-    return await axios.post(
-      APP_URL,
-      {
-        query,
-        variables: { feature: normalisedPayload , page:normalisedPage.value, limit:normalisedLimit.value },
-      },
-      {
-        headers: {
-          "Cache-Control": "no-cache, no-store, must-revalidate",
-          "Content-Type": "application/json",
-          Authorization:token // Include the token in the Authorization header
-        },
-      }
-    ).then(async(response) => {;
-    if (response && response?.data) {
-      return await response?.data; // Return the data directly if it's valid
-    }
-  }).catch((error) => {
-    console.error("Error fetching attachments:", error);
-    return {
-      data: null,
-      errors: [
-        {
-          message: error?.message || "Unknown error",
-          ...(error?.response?.data?.errors?.[0] || {}),
-        },
-      ],
-    };
-  }); 
+   const gqlModifiedQuery = print(query)
+          
+          const payload = {
+            query:  gqlModifiedQuery,
+            variables: {
+              feature: normalisedPayload,
+              page: normalisedPage.value,
+              limit: normalisedLimit.value
+            }
+          }
+          
+          let config = {
+            method: 'post',
+            url: APP_URL,
+            headers: { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              Authorization: token,
+            },
+            data : payload
+          };
+ 
+          return await axios.request(config)
+          .then(async(response) => {
+            console.log("response", response);
+            
+            let data = await response.data;
+            return data;
+          })
+          .catch((error) => {
+            console.log(error);
+            throw new Error(error)
+          });   
   } catch (err) {
     console.log(err);
     return {
