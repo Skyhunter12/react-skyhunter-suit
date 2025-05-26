@@ -9,7 +9,7 @@ import React, {
 } from "react";
 
 const APP_URL =
-  process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_APP_LIVE_URL;
+   process.env.NEXT_PUBLIC_APP_LIVE_URL;
 const AuthContext = createContext<any>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
