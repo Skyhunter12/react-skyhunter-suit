@@ -15,6 +15,7 @@ export default function GetAttachment() {
   const [error, setError] = useState<string | null>(null);
   const { isLoggedIn } = useAuth(); // Access the global auth state
   const router = useRouter()
+  const APP_URL = process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || '';
   let searchParams = useSearchParams()
   let id = searchParams.get('id')
   let token =localStorage.getItem("token");
@@ -37,7 +38,7 @@ export default function GetAttachment() {
   
   const fetchAttachment = async () => {
     try {
-      let fetchdata = await getAttachment(id, token)
+      let fetchdata = await getAttachment(APP_URL, id, token)
       
       if (!fetchdata?.data?.SuitsById) {
         console.error("No data found for the given filters");

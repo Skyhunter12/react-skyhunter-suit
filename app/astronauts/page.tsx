@@ -13,7 +13,7 @@ export default function Astronauts() {
   const [error, setError] = useState<string | null>(null);
   const { isLoggedIn, login } = useAuth(); // Access the global auth state
   const router = useRouter(); // Initialize useRouter
-  
+  const APP_URL = process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || '';
   useEffect(() => {
     if (!isLoggedIn) {
       router.push("/signin");
@@ -31,7 +31,7 @@ export default function Astronauts() {
           }
           const fetchAstronauts = async () => {
             try {
-              let fetchdata = await getAstronauts(token)
+              let fetchdata = await getAstronauts(APP_URL, token)
               if (!fetchdata?.data?.Persons) {
                 console.error("No data found for the given filters");
                 setError("No data found for the given filters.");

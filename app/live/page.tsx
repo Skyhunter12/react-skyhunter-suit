@@ -15,6 +15,8 @@ interface LiveProps {
 const Live = () => {
     let {isLoggedIn} = useAuth();
     const {astronautsData, setAstronautsData } = useAstronauts();
+    const APP_URL = process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || '';
+  
 //   const { astronautsData, setAstronautsData } = useAstronauts();
     let [limit, setLimit] = useState(10)
     let [page, setPage] = useState(1)
@@ -46,7 +48,7 @@ const Live = () => {
             let feature = {
                 belongs_to:id
             }
-            let fetchdata = await getCurrentAstronautResults(feature, token, page, limit)
+            let fetchdata = await getCurrentAstronautResults(APP_URL, feature, token, page, limit)
             let data:AstronautData[] = await fetchdata?.data?.AttachementResults?.attachmentResult?.map((item: any) => {
                 visibility.showRespirationRate= item.showRespirationRate ? true: false;
                 visibility.showBodyTemperature= item?.body_temperature ? true: false;

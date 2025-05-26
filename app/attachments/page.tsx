@@ -15,7 +15,7 @@ export default function Attachments() {
   const [limit, setLimit] = useState<string | number>(10);
   const { isLoggedIn, login } = useAuth(); // Access the global auth state
   const router = useRouter(); // Initialize useRouter
-  
+  const APP_URL = process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || '';
   const [attachmentsFeature, setAttachmentsFeature] = useState({
     body_part_belongs: [
       "wrist",
@@ -65,7 +65,7 @@ export default function Attachments() {
       setLoading(true)
       console.log("Fetching attachments with feature:", attachmentsFeature, page, limit);
       
-      let fetchdata = await getAttachments(attachmentsFeature, token, page, limit)
+      let fetchdata = await getAttachments(APP_URL,attachmentsFeature, token, page, limit)
       console.log("Fetched attachments data:", fetchdata);
       if (!fetchdata || !fetchdata.data || !fetchdata.data.Attachements) {
         throw new Error("Invalid response structure from getAttachments");

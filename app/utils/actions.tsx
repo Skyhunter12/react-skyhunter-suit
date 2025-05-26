@@ -3,10 +3,8 @@ import axios from "axios";
 import gql from "graphql-tag";
 import { print } from "graphql";
 import { normalizeToJsonObject } from "./common";
-const APP_URL =
-  process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || "";
 
-export async function getSuits(suitsByFeature: any, token: any) {
+export async function getSuits(APP_URL:string, suitsByFeature: any, token: any) {
   const query = gql`
     query SuitsByFeature($feature: fetchfeature) {
       SuitsByFeature(feature: $feature) {
@@ -75,7 +73,7 @@ export async function getSuits(suitsByFeature: any, token: any) {
   throw error;    
   }
 }
-export async function getAstronauts(token: any) {
+export async function getAstronauts(APP_URL:string, token: any) {
   const query = `query Persons {
   Persons {
     id
@@ -145,7 +143,7 @@ return {
   };  }
 }
 
-export async function getSuit(id: any, token: any) {
+export async function getSuit(APP_URL:string, id: any, token: any) {
   const query = `
     query SuitsById($id: ID!) {
   SuitsById(id: $id) {
@@ -203,7 +201,7 @@ return {
     ],
   };  }
 }
-export async function getAstronaut(id: any, token: any) {
+export async function getAstronaut(APP_URL:string, id: any, token: any) {
   const query = `query PersonById($personById: ID!) {
   PersonById(id: $personById) {
     id
@@ -280,13 +278,13 @@ export async function getAstronaut(id: any, token: any) {
   }
 }
 
-export async function getAttachments(
+export async function getAttachments(APP_URL:string,
   attachementsPayload: any,
   token: any,
   page: any,
   limit: any
 ) {
-  const query = gql`query Attachements($feature: attachment_by_feature, $page: Int, $limit: Int) {
+  const query =await gql`query Attachements($feature: attachment_by_feature, $page: Int, $limit: Int) {
     Attachements(feature: $feature, page: $page, limit: $limit) {
       page
       limit
@@ -332,10 +330,10 @@ export async function getAttachments(
   const normalisedLimit = await normalizeToJsonObject(limit);
   console.log("normalisedPayload", normalisedPayload, normalisedPage, normalisedLimit);
   try {
-   const gqlModifiedQuery = print(query)
+   const gqlModifiedQuery = await print(query)
           
           const payload = {
-            query:  gqlModifiedQuery,
+            query: await gqlModifiedQuery,
             variables: {
               feature: normalisedPayload,
               page: normalisedPage.value,
@@ -379,7 +377,7 @@ export async function getAttachments(
   }
 }
 
-export async function getAttachment(id: any, token: any) {
+export async function getAttachment(APP_URL:string, id: any, token: any) {
   const query = `query PersonById($personById: ID!) {
   PersonById(id: $personById) {
     id
@@ -453,7 +451,7 @@ try {
   }
 }
 
-export async function getCurrentAstronautResults(
+export async function getCurrentAstronautResults(APP_URL:string,
   feature: any,
   token: any,
   page: any,

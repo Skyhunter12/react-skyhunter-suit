@@ -15,6 +15,8 @@ export default function GetSuit() {
   const [error, setError] = useState<string | null>(null);
   const { isLoggedIn } = useAuth(); // Access the global auth state
   const router = useRouter()
+  const APP_URL = process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || '';
+  
   let searchParams = useSearchParams()
   let id = searchParams.get('id')
   
@@ -31,7 +33,7 @@ export default function GetSuit() {
           let token =localStorage.getItem("token");
           const fetchSuit = async () => {
             try {
-              let fetchdata = await getSuit(id, token)
+              let fetchdata = await getSuit(APP_URL,id, token)
               
               if (!fetchdata?.data?.SuitsById) {
                 console.error("No data found for the given filters");

@@ -10,6 +10,7 @@ export default function GetSuits() {
   const [client, setClent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { isLoggedIn } = useAuth(); // Access the global auth state
+  const APP_URL = process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || '';
   
   const [moduleFilter, setModuleFilter] = useState<string>("All");
   const [nameFilter, setNameFilter] = useState<string>("All");
@@ -35,7 +36,7 @@ export default function GetSuits() {
           let token =localStorage.getItem("token");
           const fetchSuits = async () => {
             try {
-              let fetchdata = await getSuits(suitsByFeature, token||"")
+              let fetchdata = await getSuits(APP_URL, suitsByFeature, token||"")
               
               if (!fetchdata?.data?.SuitsByFeature) {
                 console.error("No data found for the given filters");

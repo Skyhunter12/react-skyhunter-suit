@@ -12,6 +12,8 @@ export default function Astronaut() {
   const [error, setError] = useState<string | null>(null);
   const { isLoggedIn } = useAuth(); // Access the global auth state
   const router = useRouter()
+  const APP_URL = process.env.NEXT_PUBLIC_APP_LIVE_URL || process.env.NEXT_PUBLIC_APP_URL || '';
+  
   let searchParams = useSearchParams()
     let id = searchParams.get('id')
     
@@ -46,7 +48,7 @@ export default function Astronaut() {
   const fetchAstronaut = async (token:any) => {
     try {
       
-      let fetchdata = await getAstronaut(id, token)
+      let fetchdata = await getAstronaut(APP_URL, id, token)
       
       if (!fetchdata?.data?.PersonById) {
         console.error("No data found for the given filters");
