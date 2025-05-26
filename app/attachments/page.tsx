@@ -63,14 +63,20 @@ export default function Attachments() {
   const fetchAttachments = async (token:any) => {
     try {
       setLoading(true)
+      console.log("Fetching attachments with feature:", attachmentsFeature, page, limit);
+      
       let fetchdata = await getAttachments(attachmentsFeature, token, page, limit)
+      console.log("Fetched attachments data:", fetchdata);
+      if (!fetchdata || !fetchdata.data || !fetchdata.data.Attachements) {
+        throw new Error("Invalid response structure from getAttachments");
+      }
       if (fetchdata?.data?.Attachements?.attachment) {
         
         setAttachmentsData(fetchdata?.data?.Attachements?.attachment)
       }
     } catch (err) {
       console.error("Error fetching attachments data:", err);
-      setError("Failed to fetch attachments data.");
+      setError(`Failed to fetch attachments data.\n${err}`);
     } finally {
       setLoading(false);
     }

@@ -330,8 +330,9 @@ export async function getAttachments(
   const normalisedPayload = await normalizeToJsonObject(attachementsPayload);
   const normalisedPage = await normalizeToJsonObject(page);
   const normalisedLimit = await normalizeToJsonObject(limit);
+  console.log("normalisedPayload", normalisedPayload, normalisedPage, normalisedLimit);
   try {
-    const response = await axios.post(
+    return await axios.post(
       APP_URL,
       {
         query,
@@ -344,12 +345,22 @@ export async function getAttachments(
           Authorization:token // Include the token in the Authorization header
         },
       }
-    );
+    ).then(async(response) => {;
     if (response && response?.data) {
       return await response?.data; // Return the data directly if it's valid
-    } else {
-    return { data: null, errors: [{ message: "Empty or invalid response from server" }] };
     }
+  }).catch((error) => {
+    console.error("Error fetching attachments:", error);
+    return {
+      data: null,
+      errors: [
+        {
+          message: error?.message || "Unknown error",
+          ...(error?.response?.data?.errors?.[0] || {}),
+        },
+      ],
+    };
+  }); 
   } catch (err) {
     console.log(err);
     return {
