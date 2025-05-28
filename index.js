@@ -20,10 +20,14 @@ exports.next_app = onRequest((req, res) => {
       return nextjsHandle(req, res);
     } catch (error) {
       console.error("Error handling request:", error);
-      res.json({ success: false, error });
+      if (!res.headersSent) {
+        res.status(500).json({ success: false, error: error.message || "Internal Server Error" });
+      }
     }
   }).catch((e)=>{
     console.error("Error preparing Next.js server:", e);
-    res.json({ success: false, error: e });
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, error: e.message || "Internal Server Error" });
+    }
   });
 });
