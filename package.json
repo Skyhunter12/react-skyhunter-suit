@@ -31,6 +31,7 @@
     "graphql-tag": "^2.12.6",
     "heroicons": "^2.2.0",
     "libphonenumber-js": "^1.12.6",
+    "lru-cache": "^11.1.0",
     "lucide-react": "^0.484.0",
     "mdb-react-ui-kit": "^9.0.0",
     "next": "^15.2.2",
